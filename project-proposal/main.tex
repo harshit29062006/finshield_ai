@@ -1,0 +1,297 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{advdate} % Added for date advancement
+
+% -----------------------------------------------------
+% bvraghav-tiet-ucs503p-article.sty
+% -----------------------------------------------------
+
+% Variable: Lab Instructor
+\makeatletter \newcommand{\BvrSetLabInstructor}[1]{%
+  \gdef\Bvr@LabInstructor{#1}}
+% default
+\newcommand{\Bvr@LabInstructor}{Dr. Raghav %
+  B. Venkataramaiyer}
+% public accessor
+\newcommand{\BvrLabInstructorValue}{\Bvr@LabInstructor}
+\makeatother
+
+% Add subtitle
+\usepackage{titling}
+% -- Set title bold
+\pretitle{\begin{center}\bfseries\fontsize{18bp}{18bp}\selectfont}
+\makeatletter
+\newcommand{\BvrSubtitle}[1]{%
+  \posttitle{%
+    \par\end{center}
+    \begin{center}\large#1\end{center}
+    \vskip 0.5em}%
+}
+\makeatother
+
+% Hints in the section title(s)
+\newcommand{\BvrHint}[1]{%
+  {\normalfont\normalsize\itshape\hfill #1}}
+
+% -----------------------------------------------------
+
+\title{FinShield AI: Intelligent Financial Crime Detection and Investigation Platform}
+
+\BvrSetLabInstructor{Nisha Thakur}
+
+\BvrSubtitle{%
+  Project Proposal for UCS503P  \\
+  Submitted to: \BvrLabInstructorValue \\ \bfseries
+  Thapar Institute of Engineering and Technology% 
+}
+
+% Remove author numbering and affiliation block
+\usepackage{authblk}
+
+% Replace standard commas and "and" with customizable horizontal space
+\author{
+  Harshit Goyal\thanks{Roll No: \texttt{1024170265}, Email: \texttt{hgoyal\_be24@thapar.edu}}
+  \qquad\qquad
+  Dikshit Gupta\thanks{Roll No: \texttt{1024170274}, Email: \texttt{dgupta2\_be24@thapar.edu}}
+  \\
+  Arnav Gupta\thanks{Roll No: \texttt{1024170057}, Email: \texttt{agupta13\_be24@thapar.edu}}
+  \qquad
+  Jasmandeep Sharma\thanks{Roll No: \texttt{1024170269}, Email: \texttt{jsharma\_be24@thapar.edu}}
+}
+
+% Sets date to tomorrow dynamically (August 19, 2026)
+\date{\AdvanceDate[1]\today}
+
+\begin{document}
+\maketitle
+
+
+\section{Higher-order Goal%
+  }
+The higher-order goal of FinShield AI is to make financial crime monitoring faster and
+more useful. The system will process large numbers of transactions and help identify
+possible fraud and money-laundering activity. It will give investigators a risk score, the
+main reasons for the alert, and a clear place to review the case. The project will combine machine learning, simple rules, user behavior analysis, explainable AI, and a case-management workflow. The system will support human investigators rather than making a final legal decision on its own.
+
+% Ensure \usepackage{enumitem} is in your preamble
+
+\section{Time-to-Value}
+
+The project will be developed in small steps so that a working system is available early:
+
+\begin{itemize}[leftmargin=0.7cm]
+    \item First build transaction upload, basic risk scoring, and the main dashboard.
+    \item Add the fraud detection model using the PaySim dataset.
+    \item Add AML and suspicious-activity analysis using the IBM AMLSim dataset.
+    \item Add rules, behavior analysis, explainable AI, and hybrid risk scoring.
+    \item Add the investigation portal, AI assistant, notifications, and transaction simulation.
+    \item Test and connect all modules during the final weeks.
+    \\
+    \\
+    \\
+    \\
+\end{itemize}
+
+
+\section{Problem Statement}Financial crime can appear as a single unusual transaction or as a pattern spread across
+many transactions and accounts. Fraud and money laundering can be difficult to identify
+when only one transaction is checked at a time.
+A simple rule-based system may create many false alerts. A machine-learning model
+may give a score but may not explain the result. Investigators also need transaction
+details, related accounts, rules, risk information, and case notes in one place.
+FinShield AI aims to solve these problems through one web-based platform:
+
+\begin{itemize}[leftmargin=0.7cm]
+    \item \textbf{Real-Time Transaction Fraud Detection:} Detect possible transaction fraud across incoming payments and transfers.
+    \item \textbf{AML Pattern Recognition:} Identify complex, multi-account money laundering schemes and suspicious fund flows.
+    \item \textbf{Customer Behavioral Profiling:} Study unusual user activity and flag anomalous deviations from historical baselines.
+    \item \textbf{Hybrid Risk Scoring:} Combine distinct rule-based flags and machine learning signals into a unified risk score.
+    \item \textbf{Explainable AI (XAI) Insights:} Provide interpretable, feature-level rationales for critical machine learning predictions. 
+\end{itemize}
+
+\textbf{Why this matters now (contextual relevance):} With digital payment volumes surging, legacy monitoring creates high operational bottlenecks. Deploying an explainable, hybrid AI workflow directly mitigates alert overload, speeds up case resolution, and enables investigators to trace sophisticated, multi-account laundering rings in real time.
+
+\section{Proposed Solution % 
+}
+\subsection{Overview}
+FinShield AI will provide a web-based platform with three major layers: transaction data
+ingestion, AI/ML-based risk analysis, an alert and case-management workflow. The platform will not automatically declare a transaction criminal. Instead, it will
+identify risk and provide evidence that a human investigator can review.
+
+\subsection{Datasets}
+\begin{enumerate}[leftmargin=0.7cm]
+
+    \item \textbf{PaySim:} used mainly for transaction-level fraud detection and ML model training.
+    \item \textbf{IBM AML:}  used mainly for money-laundering and suspicious transaction analysis, including rules, account behavior, and transaction relationships.
+\end{enumerate}
+    The two datasets will not be treated as two separate projects. Both detection parts will send their results to the same risk, alert, and investigation system.
+
+
+\subsection{Main Modules}
+\begin{enumerate}
+    \item Authentication and role-based access control (RBAC)
+    \item ML fraud detection with multiple models
+    \item AML and suspicious-activity analysis
+    \item Customer/account behavior analysis
+    \item Hybrid risk scoring
+    \item Explainable AI using SHAP
+    \item Fraud and AML investigation portal
+    \item Admin and analytics dashboard
+    \item Notification API for email or in-app alerts
+    \item AI investigation assistant using an LLM API
+\end{enumerate}
+
+\subsection{Core Workflow}
+\begin{enumerate}
+    \item Transaction data is uploaded or received by the backend.
+    \item The system checks the data and prepares the required features.
+    \item The fraud ML model and AML/rule analysis check the transaction and related activity.
+    \item Behavior analysis adds information about unusual activity.
+    \item The hybrid risk engine combines the available scores into a final risk score.
+    \item High-risk activity creates an alert.
+    \item The investigator opens the alert and reviews the transaction, rules, behavior, model explanation, and related accounts.
+    \item A case can be created, assigned, updated, and closed.
+    \item The AI assistant can prepare a short case summary and suggest useful investigation
+steps.
+    \item The final investigator action and important system actions are saved in the audit log.
+\end{enumerate}
+The IBM AMLSim data will mainly support AML rules, behavior analysis, and account/transaction relationship analysis. The team will keep this part lighter than the
+main fraud ML pipeline so that the complete project can be finished within three months.
+
+\section{Solution Approach}
+
+\subsection{AI/ML Detection Layer}
+The main ML work will use the PaySim dataset.
+\begin{itemize}[leftmargin=0.7cm]
+    \item Clean and prepare transaction data and extarct useful features from amount, transaction type, balances, time, and account
+activity.
+    \item Compare models such as Logistic Regression, Random Forest, XGBoost, and LightGBM or CatBoost.
+    \item Handle the class imbalance found in fraud data.
+    \item Select the best model using precision, recall, F1-score, ROC-AUC, PR-AUC, and
+false-positive rate.
+    \item Use SHAP to show which features affected an important prediction.
+\end{itemize}
+The IBM AMLSim data will mainly support AML rules, behavior analysis, and account/transaction relationship analysis. The team will keep this part lighter than the
+main fraud ML pipeline so that the complete project can be finished within the given timeline.
+
+\subsection{Rule and Behavior Layer}
+The rule engine will contain clear rules that can be changed by an authorized administrator. Examples include:
+\begin{itemize}[leftmargin=0.7cm]
+    \item unusually high transaction amount
+    \item unusually high number of transactions in a short time,transitions, assignment logic
+    \item repeated transfers between related accounts
+    \item sudden change from normal account behavior, and
+    \item suspicious transaction relationships.
+\end{itemize}
+Behavior analysis will compare current activity with the account’s earlier activity where the required data is available.
+
+\subsection{Hybrid Risk Scoring}
+The final risk score will use several signals instead of relying on one model.
+\\
+\\
+Final Risk Score = f(ML Score, Rule Score, Behavior Score, AML/Network Score)
+\\
+\\
+The exact weights will be tested and documented. The score will be used to prioritize
+alerts, not to declare that a person or transaction is legally involved in crime.
+
+
+\subsection{Web Architecture}
+\begin{itemize}[leftmargin=0.7cm]
+    \item \textbf {Frontend:} React and TypeScript for login, dashboards, transactions, alerts, and
+investigation pages.
+    \item \textbf {Backend API:} FastAPI for authentication, transaction handling, risk analysis, alerts,
+cases, and reports.
+    \item \textbf {ML service:} Python-based service for model loading and prediction.
+    \item \textbf {Database:} PostgreSQL for users, transactions, alerts, risk scores, cases, notes, and
+audit logs.
+    \item \textbf {AI service:} one LLM API for investigation summaries and support.
+    \item \textbf {Visualization:} charts and simple account/transaction relationship graphs.
+\end{itemize}
+
+\section{Evaluation Criteria }
+The project will be evaluated using both ML and software-system measures.
+
+\subsection{Primary Evaluation Metrics}
+\begin{itemize}[leftmargin=0.7cm]
+    \item \textbf {Precision:} how many flagged transactions are actually suspicious in the test data.
+    \item \textbf {Recall:} how many suspicious transactions are detected.
+    \item \textbf {F1-score:} a balance between precision and recall.
+    \item \textbf {ROC-AUC and PR-AUC:} overall model performance, with PR-AUC being useful for imbalanced fraud data.
+    \item \textbf {False-positive rate:} how many normal transactions are wrongly flagged.
+    \item \textbf {Response time:} time needed to return a risk result.
+\end{itemize}
+
+\subsection{Secondary Evaluation Metrics}
+\begin{itemize}[leftmargin=0.7cm]
+    \item Alert prioritization quality
+    \item Case workflow completion
+    \item Dashboard usability
+    \item API reliability
+    \item Successful transaction-to-alert-to-case processing
+\end{itemize}
+
+\section{Scalability }
+The project is an academic prototype, but its design will allow larger data volumes later.
+\begin{enumerate}[leftmargin=0.7cm]
+    \item Use database indexes and pagination for common queries.
+    \item Support batch processing for large transaction files.
+    \item Keep the ML prediction part separate from the main application logic.
+    \item Keep model and preprocessing versions clear so a model can be replaced without changing the complete application.
+    \item Use Docker so the main services can be moved to another machine or cloud platform later.
+\end{enumerate}
+
+\section{Engine Availability Heuristic}
+A mature set of ``engines'' (tooling/services) is available to implement this as a web-based project:
+\begin{itemize}[leftmargin=0.7cm]
+    \item Python, pandas, NumPy, scikit-learn, XGBoost, and SHAP for ML.
+    \item FastAPI and Pydantic for the backend.
+    \item React and TypeScript for the frontend.
+    \item PostgreSQL for data storage.
+    \item Docker and Docker Compose for setup and deployment.
+    \item A single LLM API for the AI investigation assistant.
+    \item GitHub for version control and team collaboration.
+\end{itemize}
+We will use these mature components to focus on workflow design, correctness, and measurement rather than inventing new infrastructure.
+
+\section{Project Scope and Deliverables}
+\subsection{Initial Deliverables }
+\begin{itemize}[leftmargin=0.7cm]
+    \item Working web interface with authentication and RBAC.
+    \item Transaction upload and management.
+    \item PaySim-based fraud ML pipeline with model comparison.
+    \item IBM AMLSim-based AML and suspicious-activity analysis.
+    \item Configurable rule engine and Behavior analysis.
+    \item Hybrid risk scoring.
+    \item SHAP-based explanation for ML predictions.
+\end{itemize}
+
+\subsection{Subsequent Deliverables}
+\begin{itemize}[leftmargin=0.7cm]
+    \item Alert dashboard with filtering and risk priority.
+    \item Investigation and case-management workflow.
+    \item Basic account/transaction relationship graph.
+    \item AI investigation assistant.
+    \item Real-time transaction simulation.
+    \item Email or in-app notifications.
+    \item Audit logs.
+    \item Docker-based project setup and documentation.
+\end{itemize}
+
+\section{Risks and Mitigations}
+\begin{itemize}[leftmargin=0.7cm]
+    \item \textbf {Dataset limitations:} Clearly document dataset limitations and use PaySim and IBM AMLSim for their respective purposes.
+    \item \textbf {False alerts and ML errors:} Use multiple evaluation metrics, rule-based checks, and SHAP explanations to improve reliability.
+    \item \textbf {Integration and time constraints:} Define APIs early, integrate modules regularly, and complete core features before advanced features.
+    \item \textbf {Security and API risks: } Use authentication, RBAC, input validation, and keep the AI assistant as a supporting feature.
+    \item \textbf {Incorrect decisions: } The system will provide risk indicators only; final decisions will remain with the human investigator.
+\end{itemize}
+
+\section{Summary}
+FinShield AI aims to provide one platform for detecting and investigating financial crime. The project will combine PaySim-based fraud detection with IBM AMLSim-based moneylaundering and suspicious-activity analysis. Rules, behavior analysis, hybrid risk scoring, SHAP, case management, dashboards, and an AI investigation assistant will bring these parts together.
+The project is planned for a four-member team over three months. The system will focus on useful features, clear software design, measurable ML results, testing, and a simple investigation workflow. This approach keeps the project realistic while giving it strong value for both Software Engineering and Machine Learning work.
+\end{document}
