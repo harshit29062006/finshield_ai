@@ -4,6 +4,20 @@ HI-Small_accounts.csv
 HI_Small_Patterns.txt
 HI-Small_Trans.csv
 
+cat << 'EOF' >> .gitignore
+# Ignore the entire data directory and all CSVs
+code/ml/data/
+*.csv
+**/*.csv
+
+# Ignore trained models
+code/ml/models/
+*.joblib
+*.pkl
+EOF
+
+paysim_processed.csv
+
 # Environment files
 .env
 .env.*
