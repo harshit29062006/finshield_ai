@@ -1,0 +1,384 @@
+\documentclass{tietreport}
+
+% Import images
+\usepackage{graphicx}
+
+% Bibliography configuration
+\usepackage[
+  date=year,
+  style=alphabetic,
+  backend=biber,
+  sorting=nty,
+  maxnames=5,
+  minnames=3,
+  maxalphanames=4,
+  minalphanames=3,
+  backref=true,
+  doi=false,
+  isbn=false,
+  url=false,
+  eprint=false
+]{biblatex}
+\addbibresource{references.bib}
+
+%% ==================================================
+%% CUSTOMIZE THESE FIELDS FOR YOUR PROJECT
+%% ==================================================
+
+% Course/Lab header
+\TitlePageHeader{%
+  UCS503P - Software Engineering Project%
+}
+
+% Main project title
+\ProjectTitle{%
+  FinShield AI%
+}
+
+% Subtitle or project description
+\ProjectSubTitle{%
+  Intelligent Financial Crime Detection \& Investigation Platform%
+}
+
+% Student information (up to 4 students)
+\author{%
+  \texttt{1024170265} Harshit Goyal \\
+  \texttt{1024170057} Arnav Gupta \\
+  \texttt{1024170274} Dikshit Gupta \\
+  \texttt{1024170269} Jasmandeep Sharma%
+}
+
+% Group number, degree, year, program
+\TitlePageSubText{%
+  Group: \texttt{1} , BE Third Year, CSE%
+}
+
+% Faculty advisor/guide name
+\AdvisorName{%
+   Nisha Thakur%
+}
+
+% Evaluation period and department info
+\TitlePageFooterText{{%
+    \large Prototype Stage Evaluation \\[0.2cm]
+    \bfseries Computer Science and Engineering
+    Department%
+  } \\[0.15cm]
+  Thapar Institute of Engineering and Technology,
+  Patiala%
+}
+
+%% ==================================================
+\let\cleardoublepage\clearpage
+
+\begin{document}
+% Generate title page
+\maketitle
+\tableofcontents
+
+% ===== CHAPTER 1: INTRODUCTION =====
+
+\chapter{Introduction}
+\section{Background and Context}
+
+Financial fraud and money laundering involve large numbers of transactions
+that may contain complex and changing patterns. Traditional approaches that
+depend only on fixed rules may not be sufficient to identify all suspicious
+activities. FinShield AI is proposed as an intelligent financial crime
+detection and investigation platform that combines machine learning,
+rule-based analysis, user behavior analysis, risk scoring, and investigation
+support.
+
+The system is designed to receive transaction data, validate and preprocess
+it, analyze the transaction using multiple detection approaches, and assign
+a risk level. Suspicious transactions can then be converted into alerts and
+investigation cases for analysts. Explainable AI techniques and an AI-based
+investigation assistant are planned to support the investigation process.
+
+\subsection{Problem Statement}
+
+Financial institutions must quickly detect suspicious transactions without overwhelming investigators with false positives, a common pitfall of single-method systems. FinShield AI tackles this by unifying machine learning, AML rules, behavioral tracking, and hybrid risk scoring into one platform. Beyond detection, the system delivers clear risk explanations and investigative tools to help analysts act decisively.
+
+\section{Project Objectives}
+
+\begin{enumerate}
+  \item \textbf{Objective 1:} Develop a secure platform for managing users,
+    roles, and financial transaction data.
+  \item \textbf{Objective 2:} Detect suspicious financial transactions using
+    machine learning, AML rules, and user behavior analysis.
+  \item \textbf{Objective 3:} Combine different detection results to generate
+    a meaningful risk score and identify high-risk transactions.
+  \item \textbf{Objective 4:} Support fraud investigation through alerts,
+    explainable predictions, case management, and investigation assistance.
+  \item \textbf{Objective 5:} Provide dashboards and reports for analysts,
+    compliance officers, and system administrators.
+\end{enumerate}
+
+% ===== CHAPTER 2: METHODOLOGY & DESIGN =====
+
+\chapter{Methodology and Design}
+
+\section{System Architecture}
+
+FinShield AI follows a modular architecture in which the frontend interacts
+with the backend through APIs. The backend manages authentication,
+transactions, fraud analysis, alerts, investigations, and communication with
+the database. The fraud analysis layer contains machine learning, AML rule
+processing, and user behavior analysis. Their outputs are intended to be
+combined by the hybrid risk scoring component.
+
+\subsection{High-Level Design}
+
+The high-level design separates the system into user interaction,
+application services, fraud intelligence, and data storage components.
+Customers/users submit transactions through the interface. The backend
+validates the transaction and passes the required information to the
+fraud-analysis components. The resulting risk information is stored and can
+be used by analysts and compliance officers for further action.
+
+
+% --------------------------------------------------
+% Diagram placeholders
+% --------------------------------------------------
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{gantt_chart.jpeg}
+  \caption{Three-Month Project Gantt Chart}
+  \label{fig:gantt}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{ucd.jpeg}
+  \caption{Use Case Diagram of FinShield AI}
+  \label{fig:usecase}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{activity_diagram.jpeg}
+  \caption{Activity Diagram of FinShield AI}
+  \label{fig:activity}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{use_case_template_1.png}
+    \caption{Use Case Template: User Authentication \& Profile Management}  \label{fig:usecase_1}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{use_case_template_2.png}
+  \caption{Use Case Template: Transaction Management}
+  \label{fig:usecase_2}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{use_case_template_3.png}
+  \caption{Use Case Template: ML Fraud Detection \& Risk Scoring}
+  \label{fig:usecase_3}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{use_case_template_4.png}
+  \caption{Use Case Template: Fraud Alert \& Notification}
+  \label{fig:usecase_4}
+\end{figure}
+
+
+\begin{figure}[htbp]
+  \centering
+  \noindent\makebox[\textwidth][c]{%
+    \includegraphics[width=0.88\textwidth]{use_case_template_5.png}%
+  }
+  \caption{Use Case Template: Fraud Case Investigation}
+  \label{fig:usecase_5}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{use_case_template_6.png}
+  \caption{Use Case Template: Explainable AI Analysis}
+  \label{fig:usecase_6}
+\end{figure}
+
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{use_case_template_7.png}
+  \caption{Use Case Template: System \& Rule Management}
+  \label{fig:usecase_7}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{use_case_template_8.png}
+  \caption{Use Case Template: Risk Reports \& Compliance Analytics}
+  \label{fig:usecase_8}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{collaboration_diagram.jpeg}
+\caption{Collaboration Diagram of FinShield AI}
+\label{fig:collaboration}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{sequence_diagram.jpeg}
+\caption{Sequence Diagram of FinShield AI}
+\label{fig:sequence}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{Level0_DFD.drawio.png}
+\caption{Level 0 Data Flow Diagram}
+\label{fig:dfd_0}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{Level1_DFD.drawio.png}
+\caption{Level 1 Data Flow Diagram}
+\label{fig:dfd_1}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{Level2_DFD.drawio.png}
+\caption{Level 2 Data Flow Diagram}
+\label{fig:dfd_2}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{Class_Diagram.drawio.png}
+\caption{Class Diagram}
+\label{fig:class}
+\end{figure}
+
+\subsection{Technical Stack}
+
+\begin{itemize}
+  \item \textbf{Framework/Language:} Python for machine learning and
+    backend development, with a web-based frontend.
+  \item \textbf{Database:} PostgreSQL for structured storage of users,
+    transactions, alerts, investigations, and related records.
+  \item \textbf{Tools:} Git and GitHub for version control and collaborative
+    development; Jupyter Notebook for data analysis and model experiments.
+  \item \textbf{Libraries:} Pandas and NumPy for data processing, with
+    appropriate machine learning libraries for model development.
+\end{itemize}
+
+\section{Implementation Details}
+
+The prototype implementation is being developed in modules so that each
+member can work on a specific part while following the same project
+architecture and common transaction data schema. The initial implementation
+focuses on the system foundation and the core fraud-detection workflow.
+The complete investigation, reporting, explainability, and AI-assistant
+features are planned for later stages of the three-month development
+timeline.
+
+\subsection{Prototype Modules Implemented}
+
+\subsubsection*{Authentication and RBAC}
+
+The Authentication and Role-Based Access Control (RBAC) module provides
+secure access to the platform. Users are authenticated before accessing
+protected functionality, and permissions are controlled according to their
+assigned roles. The planned roles include Customer/User, Analyst/Investigator,
+Compliance Officer, and System Administrator. This separation ensures that
+each actor can access only the functions relevant to their responsibilities.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{authentication.jpeg}
+\caption{Authentication and RBAC}
+\label{fig:authentication_rbac}
+\end{figure}
+
+
+\subsubsection*{Transaction Management}
+
+The Transaction Management module handles the submission and storage of
+transaction information. A transaction is first received by the system,
+validated, and prepared for subsequent fraud analysis. The module provides
+the basic connection between user transaction input and the fraud-detection
+pipeline.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{transaction.jpeg}
+\caption{Transaction Management}
+\label{fig:transaction}
+\end{figure}
+
+
+\subsubsection*{ML Fraud Detection}
+
+The ML Fraud Detection module uses transaction attributes to identify
+potentially fraudulent transactions. The initial development includes
+dataset analysis, common schema definition, preprocessing, and baseline
+model development. Model performance will be evaluated using fraud-detection
+metrics such as precision, recall, F1-score, and ROC-AUC rather than relying
+only on accuracy.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{ml.jpeg}
+\caption{ML Fraud Detection}
+\label{fig:ml}
+\end{figure}
+
+
+\subsubsection*{AML Detection}
+
+The AML Detection module provides rule-based analysis for identifying
+transactions that may indicate suspicious financial activity. The module
+is designed to work with the common transaction schema so that its output
+can later be combined with the machine learning and behavior-analysis
+results. The initial stage focuses on defining and testing suitable AML
+rules; the complete rule engine and hybrid risk-scoring workflow will be
+developed in later phases.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{aml.jpeg}
+\caption{AML Detection}
+\label{fig:aml}
+\end{figure}
+
+
+\subsection{Initial Data and Schema Preparation}
+
+The project uses a common transaction-data schema across all modules.
+The selected datasets are being studied and prepared so that the ML,
+AML, backend, and future behavior-analysis components use a consistent
+representation of transaction information. A data dictionary is maintained
+to document the meaning and type of each field. Preprocessing is performed
+before the data is supplied to the machine learning pipeline.
+
+The schema is treated as a shared interface between team members. Any
+required change is reviewed by the team before it is introduced, reducing
+the risk of incompatibility between the ML, AML, backend, and frontend
+components.
+
+\subsection{Prototype Development Status}
+
+At the prototype stage, the project has moved from requirement analysis and
+system design toward initial implementation. The current work establishes
+the foundation for the remaining development phases. The complete system
+will later integrate behavior analysis, hybrid risk scoring, explainable
+AI, fraud investigation, dashboards, notifications, compliance reporting,
+and the AI investigation assistant.
+
+% ===== END AT SECTION 2.2.1 AS REQUESTED =====
+
+\end{document}
