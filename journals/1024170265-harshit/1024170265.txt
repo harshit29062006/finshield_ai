@@ -1,0 +1,84 @@
+DAY 1 – Project Structure Finalization and Team Coordination
+
+Work Done:
+
+As the group leader, I reviewed the overall project structure and finalized the major modules of the FinShield AI – Intelligent Financial Crime Detection and Investigation Platform.
+Reviewed the project proposal and ensured that the planned modules were aligned with the problem statement and project objectives.
+Finalized the responsibilities and technical work areas for all group members.
+Reviewed the previously prepared Gantt Chart, Use Case Diagram, Activity Diagram, Sequence Diagram, Collaboration Diagram, Data Flow Diagram and Class Diagram.
+Identified unnecessary or inconsistent elements in the diagrams and finalized the changes required to maintain consistency across the project documentation.
+Ensured that the project structure was feasible within the planned three-month development timeline.
+Established a common understanding of the data flow and interaction between the Transaction Management, Fraud Detection, AML Detection, Risk Scoring and Investigation components.
+
+Outcome:
+
+The overall project structure and responsibilities were finalized, and the required corrections in the project diagrams and development plan were identified.
+
+DAY 2 – Dataset Collection and Exploratory Data Analysis
+
+Work Done:
+
+Collected and prepared the required dataset for the initial machine learning component of FinShield AI.
+Used the PaySim dataset for developing and testing the initial fraud detection model.
+Studied the dataset structure and examined the available transaction-related attributes.
+Performed Exploratory Data Analysis (EDA) to understand the characteristics of the data.
+Checked the data types, missing values, duplicate records and distribution of important attributes.
+Studied the distribution of fraudulent and non-fraudulent transactions.
+Analyzed transaction types, transaction amounts and balance-related attributes.
+Identified important patterns and characteristics that could be useful for fraud detection.
+Ensured that the dataset schema was documented clearly so that the same structure could be followed by other members during integration.
+
+Outcome:
+
+The PaySim dataset was understood and analyzed, and the important data characteristics required for the fraud detection component were identified.
+
+DAY 3 – Data Preprocessing and Feature Preparation
+
+Work Done:
+
+Prepared the PaySim dataset for machine learning.
+Performed data cleaning and preprocessing operations.
+Removed duplicate records and checked the dataset for invalid or inconsistent values.
+Converted numerical attributes into appropriate numerical data types.
+Handled the categorical transaction type attribute using suitable encoding.
+Selected the relevant attributes required by the fraud detection model.
+Prepared the final feature set while maintaining consistency with the original dataset schema.
+Separated the input features and target variable for model training.
+Verified the final processed data before passing it to the machine learning stage.
+
+Outcome:
+
+A clean and machine-learning-ready dataset was prepared while maintaining a consistent data structure for further integration with the FinShield AI system.
+
+DAY 4 – Machine Learning Model Development
+
+Work Done:
+
+Developed the initial machine learning component for fraud detection using the preprocessed PaySim dataset.
+Trained and tested the selected machine learning model for classifying transactions as fraudulent or non-fraudulent.
+Evaluated the model predictions using appropriate classification measures.
+Tested the model with both normal and high-risk transaction examples.
+Generated fraud prediction probabilities along with the predicted class.
+Converted the model output into a format that can later be used by the Risk Scoring component.
+Reviewed the model behavior and verified that it could distinguish between low-risk and suspicious transaction patterns.
+
+Outcome:
+
+The initial ML-based fraud detection model was successfully developed and tested, producing fraud predictions and associated probabilities.
+
+DAY 5 – Model Saving and Simulation Development
+
+Work Done:
+
+Saved the trained machine learning model and the required preprocessing components in .pkl files for future reuse.
+Organized the trained model and preprocessing files so that they can be loaded without retraining the model every time.
+Developed Python (.py) files for simulating fraud detection using new transaction inputs.
+Created a simulation flow in which transaction information is provided to the preprocessing pipeline and then passed to the trained model.
+Tested the simulation using sample low-risk and high-risk transactions.
+Verified the generated prediction, fraud probability and risk indication.
+Prepared the ML component in a form that can later be connected with the backend and other FinShield AI modules.
+Documented the work completed during the initial development stage for updating the project journal.
+
+Outcome:
+
+The trained model and preprocessing components were stored for reuse, and a working Python-based fraud detection simulation was prepared for future integration with the FinShield AI backend.
