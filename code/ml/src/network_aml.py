@@ -1,4 +1,4 @@
-_"""Basic relationship/network analysis without external graph packages."""
+"""Basic relationship/network analysis without external graph packages."""
 from collections import Counter
 def analyze_network(transaction, history=None):
     history = history or []
