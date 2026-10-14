@@ -1,10 +1,10 @@
-from .preprocessing import normalize_transaction
-from .rules import run_aml_rules
-from .behavior import analyze_behavior
-from .network import analyze_network
-from .scoring import calculate_aml_score, risk_level
-from .llm_assistant import generate_investigation_summary
-from .notifications import build_notification
+from .preprocessing_aml import normalize_transaction
+from .rules_aml import run_aml_rules
+from .behavior_aml import analyze_behavior
+from .network_aml import analyze_network
+from .scoring_aml import calculate_aml_score, risk_level
+from .llm_assistant_aml import generate_investigation_summary
+from .notifications_aml import build_notification
 
 def analyze_aml(transaction_data, transaction_history=None):
     transaction = normalize_transaction(transaction_data)
