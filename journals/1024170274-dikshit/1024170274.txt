@@ -1,0 +1,94 @@
+FinShield AI – Intelligent Financial Crime Detection and Investigation Platform
+
+WEEK 1 – Project Understanding and Frontend Setup
+
+Work Done:
+
+- Studied the FinShield AI project proposal to understand its objectives, problem statement, and overall system architecture.
+- Reviewed the major modules, including User Authentication, Transaction Management, Fraud Detection, AML Detection, Risk Scoring, and Investigation Management.
+- Explored the project repository on GitHub and examined the existing frontend directory and source files.
+- Opened the project in Visual Studio Code and reviewed its directory structure and configuration files.
+- Identified the dependencies and setup requirements needed to run the frontend locally.
+- Examined the existing website interface and identified the areas requiring further development and backend integration.
+- Coordinated with team members to understand the division of responsibilities and maintain consistency across the project.
+
+Outcome:
+
+The project architecture and frontend structure were understood, and the local development setup and requirements for further frontend development were identified.
+
+
+WEEK 2 – Frontend Interface Analysis and Component Planning
+
+Work Done:
+
+- Examined the existing frontend interface, including the login page, navigation elements, and available application screens.
+- Reviewed the requirements for displaying transaction details, fraud alerts, risk indicators, and other financial crime detection information.
+- Identified the interface components required for transaction management and fraud monitoring.
+- Studied the expected user interaction flow and the information required by different user roles.
+- Reviewed the input fields and validation requirements for authentication and transaction-related operations.
+- Compared the existing frontend structure with the functional requirements mentioned in the project proposal.
+- Coordinated with team members to ensure that the frontend data fields remained consistent with the common transaction schema.
+
+Outcome:
+
+The frontend requirements and interface components were reviewed, and the necessary improvements and integration requirements were identified.
+
+
+WEEK 3 – Development Environment and Database Configuration
+
+Work Done:
+
+- Reviewed the backend setup instructions and studied the process of connecting the frontend with backend services.
+- Examined the role of PostgreSQL in storing application information, including user details, transactions, and related records.
+- Configured the local development environment and reviewed the required software dependencies.
+- Worked with PostgreSQL and pgAdmin to establish a database connection.
+- Reviewed the database name, connection settings, and authentication requirements needed by the backend.
+- Investigated database connection and configuration issues encountered while setting up the project.
+- Examined the steps required to run the frontend and backend services together on the local machine.
+
+Outcome:
+
+The local development and database configuration process was understood, and the requirements for establishing communication between the frontend, backend, and PostgreSQL database were identified.
+
+
+WEEK 4 – Frontend-Backend Integration and Fraud Detection Workflow
+
+Work Done:
+
+- Reviewed the backend API structure and identified the endpoints required for frontend operations.
+- Studied how the frontend sends requests to the backend and receives responses from application services.
+- Examined the authentication workflow and investigated issues related to the login process.
+- Reviewed the transaction submission process and compared the frontend input structure with the backend's expected data format.
+- Studied how machine learning predictions and fraud probabilities could be displayed through the frontend interface.
+- Examined the relationship between transaction management, fraud detection, and risk scoring.
+- Investigated API communication errors, configuration issues, and other integration problems encountered during local testing.
+
+Outcome:
+
+The frontend-backend integration workflow was analyzed, and the data requirements and technical issues affecting authentication, transaction processing, and fraud detection integration were identified.
+
+
+WEEK 5 – Testing, Debugging, and Project Documentation
+
+Work Done:
+
+- Reviewed the overall application workflow, including frontend execution, backend communication, and database connectivity.
+- Tested the available frontend functionality and investigated errors encountered during local execution.
+- Examined API requests, response handling, and configuration settings to identify potential causes of integration failures.
+- Reviewed the usability of the available interface elements and identified areas for improvement.
+- Documented the setup procedure, database configuration requirements, and troubleshooting steps.
+- Reviewed the GitHub repository to understand the organization of frontend files and their relationship with other project modules.
+- Coordinated with team members to evaluate project progress and identify the remaining implementation and testing requirements.
+- Prepared a summary of the work completed and the next steps required for further development of FinShield AI.
+
+Outcome:
+
+The frontend and system integration progress was reviewed, and the major configuration issues, testing requirements, and remaining development tasks were documented. The work established a foundation for completing the frontend-backend integration and improving the reliability of the FinShield AI platform.
+
+
+
+Overall Outcome
+
+Over the five-week period, work focused on understanding the FinShield AI project architecture, reviewing the frontend, preparing the local development environment, configuring PostgreSQL, and investigating frontend-backend integration requirements. The work also covered authentication, transaction management, fraud detection result presentation, debugging, and project documentation.
+
+These activities helped establish the technical foundation required for further development and integration of the FinShield AI platform. Further work will focus on resolving outstanding issues, verifying API connectivity, testing the complete application workflow, and improving the functionality and usability of the system.

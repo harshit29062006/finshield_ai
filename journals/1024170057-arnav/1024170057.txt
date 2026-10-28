@@ -1,0 +1,85 @@
+FINSHIELD AI – BACKEND DEVELOPMENT JOURNAL
+Member 1 – Backend and Security
+Weeks 1 to 5
+
+
+WEEK 1 – Project Understanding and Backend Planning
+
+Work Done:
+
+Reviewed the FinShield AI project objectives and identified the backend work required for the financial crime detection and investigation platform.
+Studied how transaction management, fraud detection, AML analysis, risk scoring, alerts and investigation cases would work together.
+Discussed the expected data flow between the React frontend, FastAPI backend, database and modules developed by the other group members.
+Identified the main backend user roles: customer, analyst, compliance officer and administrator.
+Planned the API areas for authentication, transactions, alerts, cases, analytics and administration.
+Organized the backend project into routers, services, database models, schemas, configuration and tests.
+
+Outcome:
+
+The backend responsibilities, application structure and initial integration plan were defined for the team.
+
+
+WEEK 2 – Database Design and Backend Configuration
+
+Work Done:
+
+Designed the database layer using SQLAlchemy and created models for users, transactions, risk results, alerts, investigation cases, case notes and audit logs.
+Defined relationships between transactions and their risk results and alerts, and between cases and their notes.
+Included transaction fields needed for PaySim fraud prediction and AML analysis, such as transaction type, amount, account balances, sender, receiver and timestamp.
+Added configuration for the database connection, authentication, ML and AML module paths, risk score weights, thresholds and AML history limit.
+Configured the FastAPI application to initialize database tables at startup.
+Prepared seed data and sample transactions for local setup and demonstration.
+
+Outcome:
+
+The core persistence layer and application settings were prepared to support transaction screening, user access and investigation workflows.
+
+
+WEEK 3 – Authentication, Security and Transaction APIs
+
+Work Done:
+
+Implemented user registration and login endpoints, password hashing and JWT creation and validation.
+Added role-based access checks for customer, analyst, compliance and administrator operations.
+Prevented public registration from assigning administrator privileges and limited customers to their own transactions.
+Implemented transaction submission, listing and detail endpoints with request and response validation.
+Stored submitted transactions with generated references, timestamps, submitter details and fields required by the analysis modules.
+Added pagination and risk-level filtering to transaction lists.
+Recorded important authentication and transaction activities in the audit log.
+
+Outcome:
+
+Users can authenticate securely and use the transaction APIs, while access to protected operations is limited by role and transaction ownership.
+
+
+WEEK 4 – ML, AML and Hybrid Risk Scoring Integration
+
+Work Done:
+
+Created an adapter to convert transaction records into the feature format expected by the PaySim fraud detection models.
+Added support for loading and calling the configured Logistic Regression, Random Forest or XGBoost model files.
+Implemented SHAP explanation support for XGBoost to help staff understand influential transaction features.
+Created an AML adapter to format transactions and provide recent transaction history for the same sender.
+Combined available ML and AML scores using configurable weights and assigned LOW, MEDIUM or HIGH risk levels.
+Stored the analysis results and automatically created alerts for medium- and high-risk transactions.
+
+Outcome:
+
+The backend analysis flow was implemented to connect transaction data with fraud prediction, AML analysis, a combined risk result and alert generation. Runtime scoring depends on the model files and AML package being available at their configured locations.
+
+
+WEEK 5 – Investigation Workflow and Prototype Preparation
+
+Work Done:
+
+Implemented endpoints for staff to view alerts and update their statuses.
+Added case creation, retrieval and update operations, along with investigator notes.
+Added analytics summary endpoints and administrative functions for user management and model or AML rule information.
+Connected the backend API structure with frontend screens for login, dashboard, transactions, alerts, cases and administration.
+Added a health endpoint to report ML model and AML module availability and the configured risk weights.
+Prepared Swagger and ReDoc API documentation, backend setup instructions, API tests and a scripted demo walkthrough.
+Identified final integration checks: configure the database, provide the final ML and AML assets, check service health and verify the transaction-to-investigation flow through the frontend.
+
+Outcome:
+
+The backend supports the main staff investigation workflow and is prepared for integration with the frontend. The complete prototype should be verified with the team's final ML and AML assets in the target environment.
