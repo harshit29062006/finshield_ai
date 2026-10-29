@@ -106,7 +106,12 @@ def run_analysis(db: Session, transaction: Transaction) -> tuple[RiskResult, dic
 
     db.commit()
     db.refresh(risk)
-    return risk, notification
+
+    return risk, {
+        "notification": notification,
+        "aml_explanation": aml_result.get("detailed_explanation"),
+        "aml_explanation_details": aml_result.get("explanation_details"),
+    }
 
 
 @router.post("", response_model=TransactionAnalysisOut, status_code=status.HTTP_201_CREATED)
@@ -148,7 +153,8 @@ def submit_transaction(
     db.commit()
     db.refresh(transaction)
 
-    risk, notification = run_analysis(db, transaction)
+    risk, analysis_extras = run_analysis(db, transaction)
+    notification = analysis_extras["notification"]
 
     write_audit(
         db,
@@ -167,11 +173,13 @@ def submit_transaction(
 
     alert = db.query(Alert).filter(Alert.transaction_id == transaction.id).first()
     return TransactionAnalysisOut(
-        transaction=transaction,
-        risk=risk,
-        alert_id=alert.id if alert else None,
-        notification=notification,
-    )
+    transaction=transaction,
+    risk=risk,
+    alert_id=alert.id if alert else None,
+    notification=notification,
+    aml_explanation=analysis_extras["aml_explanation"],
+    aml_explanation_details=analysis_extras["aml_explanation_details"],
+)
 
 
 @router.get("", response_model=list[TransactionOut])
@@ -288,7 +296,8 @@ def reanalyse_transaction(
         db.delete(existing_alert)
     db.commit()
 
-    risk, notification = run_analysis(db, transaction)
+    risk, analysis_extras = run_analysis(db, transaction)
+    notification = analysis_extras["notification"]
     write_audit(
         db,
         action="TRANSACTION_REANALYSED",
@@ -300,8 +309,10 @@ def reanalyse_transaction(
     )
     alert = db.query(Alert).filter(Alert.transaction_id == transaction.id).first()
     return TransactionAnalysisOut(
-        transaction=transaction,
-        risk=risk,
-        alert_id=alert.id if alert else None,
-        notification=notification,
-    )
+    transaction=transaction,
+    risk=risk,
+    alert_id=alert.id if alert else None,
+    notification=notification,
+    aml_explanation=analysis_extras["aml_explanation"],
+    aml_explanation_details=analysis_extras["aml_explanation_details"],
+)

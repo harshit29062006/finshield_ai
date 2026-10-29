@@ -102,7 +102,8 @@ class TransactionAnalysisOut(BaseModel):
     risk: RiskResultOut
     alert_id: int | None = None
     notification: dict | None = None
-
+    aml_explanation: str | None = None
+    aml_explanation_details: dict | None = None
 
 class ShapFeature(BaseModel):
     feature: str
