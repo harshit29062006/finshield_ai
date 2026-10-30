@@ -47,7 +47,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = int(
 )
 
 # Teammate code locations
-ML_MODELS_DIR = _path_setting("ML_MODELS_DIR", "member2_ml")
+ML_MODELS_DIR = _path_setting("ML_MODELS_DIR", "ml/models")
 AML_PACKAGE_DIR = _path_setting("AML_PACKAGE_DIR", "member4_aml")
 
 # ML model used by the API
