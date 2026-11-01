@@ -4,6 +4,10 @@ Destination: code/backend/tests/test_member3_workflow.py
 Run from code/backend: python -m pytest -v tests/test_member3_workflow.py
 """
 import pytest
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent))
 from test_api import client, auth_header, FRAUD_TXN, NORMAL_TXN, fresh_database
 
 
@@ -96,3 +100,47 @@ def test_case_creation_requires_staff_role():
         "title": "Customer must not open an investigation case",
     })
     assert response.status_code == 403
+
+@pytest.mark.usefixtures("fresh_database")
+def test_reanalysis_preserves_case_linked_alert_and_in_review_status():
+    created = client.post("/api/transactions", headers=auth_header("customer"), json=FRAUD_TXN)
+    assert created.status_code == 201, created.text
+    transaction_id = created.json()["transaction"]["id"]
+    original_alert_id = created.json()["alert_id"]
+    assert original_alert_id is not None
+    analyst = auth_header("analyst")
+
+    case_response = client.post(
+        "/api/cases", headers=analyst,
+        json={"transaction_id": transaction_id, "title": "Re-analysis preservation test", "priority": "HIGH"},
+    )
+    assert case_response.status_code == 201, case_response.text
+
+    reanalysed = client.post(f"/api/transactions/{transaction_id}/reanalyse", headers=analyst)
+    assert reanalysed.status_code == 200, reanalysed.text
+    assert reanalysed.json()["alert_id"] == original_alert_id
+
+    alert = client.get(f"/api/alerts/{original_alert_id}", headers=analyst)
+    assert alert.status_code == 200, alert.text
+    assert alert.json()["status"] == "IN_REVIEW"
+
+    alerts = client.get("/api/alerts", headers=analyst)
+    matching = [item for item in alerts.json() if item["transaction_id"] == transaction_id]
+    assert len(matching) == 1
+
+
+@pytest.mark.usefixtures("fresh_database")
+def test_reanalysis_does_not_create_duplicate_unlinked_alert():
+    created = client.post("/api/transactions", headers=auth_header("customer"), json=FRAUD_TXN)
+    assert created.status_code == 201, created.text
+    transaction_id = created.json()["transaction"]["id"]
+    analyst = auth_header("analyst")
+
+    reanalysed = client.post(f"/api/transactions/{transaction_id}/reanalyse", headers=analyst)
+    assert reanalysed.status_code == 200, reanalysed.text
+    assert reanalysed.json()["alert_id"] is not None
+
+    alerts = client.get("/api/alerts", headers=analyst)
+    matching = [item for item in alerts.json() if item["transaction_id"] == transaction_id]
+    assert len(matching) == 1
+
