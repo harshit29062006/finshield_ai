@@ -89,20 +89,34 @@ def run_analysis(db: Session, transaction: Transaction) -> tuple[RiskResult, dic
     db.add(risk)
 
     notification = aml_result.get("notification")
+    existing_alert = (
+        db.query(Alert)
+        .filter(Alert.transaction_id == transaction.id)
+        .first()
+    )
     if level != "LOW":
         reasons = aml_result.get("reasons") or []
         message = (
             f"{level} risk transaction {transaction.txn_ref} "
             f"(score {final_score:.2f}). " + " ".join(reasons[:2])
         ).strip()
-        db.add(
-            Alert(
-                transaction_id=transaction.id,
-                risk_level=level,
-                final_risk_score=final_score,
-                message=message,
+        if existing_alert is None:
+            db.add(
+                Alert(
+                    transaction_id=transaction.id,
+                    risk_level=level,
+                    final_risk_score=final_score,
+                    message=message,
+                )
             )
-        )
+        else:
+            # Preserve the alert and its investigation/case relationship.
+            existing_alert.risk_level = level
+            existing_alert.final_risk_score = final_score
+            existing_alert.message = message
+    elif existing_alert is not None and existing_alert.case is None:
+        # Remove stale, unlinked alerts if a re-analysis lowers risk to LOW.
+        db.delete(existing_alert)
 
     db.commit()
     db.refresh(risk)
