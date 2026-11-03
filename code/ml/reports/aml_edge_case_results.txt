@@ -1,0 +1,145 @@
+==============================================================================
+FINSHIELD AI - AML EDGE-CASE TEST RESULTS
+==============================================================================
+Tests: 16 to 25 (10 additional scenarios)
+PASS = test behaved as expected; REVIEW = inspect validation/logic; FAIL = valid-input test failed.
+
+------------------------------------------------------------------------------
+16 - Empty transaction input
+Status: REVIEW
+Details: The AML function accepted this input. Check whether input validation should reject it. Returned score: 0.15
+AML score: 0.15
+Risk level: LOW
+Rule score: 0.0
+Behaviour score: 0.2
+Network score: 0.4
+Triggered rules: []
+Reasons: ["No historical activity was supplied for comparison.", "A reciprocal transfer relationship was observed."]
+Notification: {"should_notify": false, "channels": [], "message": "No alert notification required."}
+
+------------------------------------------------------------------------------
+17 - Missing required transaction fields
+Status: REVIEW
+Details: The AML function accepted this input. Check whether input validation should reject it. Returned score: 0.15
+AML score: 0.15
+Risk level: LOW
+Rule score: 0.0
+Behaviour score: 0.2
+Network score: 0.4
+Triggered rules: []
+Reasons: ["No historical activity was supplied for comparison.", "A reciprocal transfer relationship was observed."]
+Notification: {"should_notify": false, "channels": [], "message": "No alert notification required."}
+
+------------------------------------------------------------------------------
+18 - Zero transaction amount
+Status: PASS
+Details: All scores are within [0, 1].
+AML score: 0.07
+Risk level: LOW
+Rule score: 0.0
+Behaviour score: 0.2
+Network score: 0.0
+Triggered rules: []
+Reasons: ["No historical activity was supplied for comparison.", "No strong relationship anomaly was found in the supplied history."]
+Notification: {"should_notify": false, "channels": [], "message": "No alert notification required."}
+
+------------------------------------------------------------------------------
+19 - Negative transaction amount
+Status: REVIEW
+Details: The AML function accepted this input. Check whether input validation should reject it. Returned score: 0.07
+AML score: 0.07
+Risk level: LOW
+Rule score: 0.0
+Behaviour score: 0.2
+Network score: 0.0
+Triggered rules: []
+Reasons: ["No historical activity was supplied for comparison.", "No strong relationship anomaly was found in the supplied history."]
+Notification: {"should_notify": false, "channels": [], "message": "No alert notification required."}
+
+------------------------------------------------------------------------------
+20 - Exact 24-hour frequency boundary
+Status: PASS
+Details: All scores are within [0, 1].
+AML score: 0.2325
+Risk level: LOW
+Rule score: 0.25
+Behaviour score: 0.0
+Network score: 0.6
+Triggered rules: ["HIGH_FREQUENCY"]
+Reasons: ["Too many transactions were made in a short time window.", "Transaction is broadly consistent with the supplied history.", "Sender is connected to many transactions.", "Receiver is connected to many incoming transactions."]
+Notification: {"should_notify": false, "channels": [], "message": "No alert notification required."}
+
+------------------------------------------------------------------------------
+21 - Transactions just outside 24-hour window
+Status: PASS
+Details: All scores are within [0, 1].
+AML score: 0.12
+Risk level: LOW
+Rule score: 0.0
+Behaviour score: 0.0
+Network score: 0.6
+Triggered rules: []
+Reasons: ["Transaction is broadly consistent with the supplied history.", "Sender is connected to many transactions.", "Receiver is connected to many incoming transactions."]
+Notification: {"should_notify": false, "channels": [], "message": "No alert notification required."}
+
+------------------------------------------------------------------------------
+22 - Large transaction history (1,000 records)
+Status: PASS
+Details: All scores are within [0, 1].
+AML score: 0.215
+Risk level: LOW
+Rule score: 0.0
+Behaviour score: 0.1
+Network score: 0.8999999999999999
+Triggered rules: []
+Reasons: ["Account has high recent transaction activity.", "Sender is connected to many transactions.", "Receiver is connected to many incoming transactions.", "Sender has transferred money to multiple different receivers."]
+Notification: {"should_notify": false, "channels": [], "message": "No alert notification required."}
+
+------------------------------------------------------------------------------
+23 - Duplicate historical transactions
+Status: PASS
+Details: All scores are within [0, 1].
+AML score: 0.2325
+Risk level: LOW
+Rule score: 0.25
+Behaviour score: 0.0
+Network score: 0.6
+Triggered rules: ["HIGH_FREQUENCY"]
+Reasons: ["Too many transactions were made in a short time window.", "Transaction is broadly consistent with the supplied history.", "Sender is connected to many transactions.", "Receiver is connected to many incoming transactions."]
+Notification: {"should_notify": false, "channels": [], "message": "No alert notification required."}
+
+------------------------------------------------------------------------------
+24 - Rule and network score capping
+Status: PASS
+Details: All scores are within [0, 1].
+AML score: 0.955
+Risk level: HIGH
+Rule score: 0.9
+Behaviour score: 1.0
+Network score: 1.0
+Triggered rules: ["HIGH_AMOUNT", "HIGH_FREQUENCY", "NEW_RECEIVER_LARGE_AMOUNT", "SUDDEN_ACTIVITY_SPIKE"]
+Reasons: ["Transaction amount is unusually high.", "Too many transactions were made in a short time window.", "Large transfer to a receiver not previously seen in the history.", "Current transaction is much larger than the sender's historical average.", "Transaction is at least five times the historical average.", "Account has high recent transaction activity.", "Sender is connected to many transactions.", "Receiver is connected to many incoming transactions.", "Sender has transferred money to multiple different receivers.", "A reciprocal transfer relationship was observed."]
+Notification: {"should_notify": true, "channels": ["dashboard", "email"], "message": "FinShield AML Alert: HIGH risk transaction. AML score=0.95. Transaction amount is unusually high. Too many transactions were made in a short time window. Large transfer to a receiver not previously seen in the history."}
+
+------------------------------------------------------------------------------
+25 - Invalid timestamp format
+Status: REVIEW
+Details: The AML function accepted this input. Check whether input validation should reject it. Returned score: 0.07
+AML score: 0.07
+Risk level: LOW
+Rule score: 0.0
+Behaviour score: 0.2
+Network score: 0.0
+Triggered rules: []
+Reasons: ["No historical activity was supplied for comparison.", "No strong relationship anomaly was found in the supplied history."]
+Notification: {"should_notify": false, "channels": [], "message": "No alert notification required."}
+
+==============================================================================
+SUMMARY
+==============================================================================
+Total tests: 10
+PASS: 6
+REVIEW: 4
+FAIL: 0
+TXT report: /Users/harshitgoyal/Desktop/UCS503P/finshield_ai/code/ml/reports/aml_edge_case_results.txt
+CSV report: /Users/harshitgoyal/Desktop/UCS503P/finshield_ai/code/ml/reports/aml_edge_case_results.csv
