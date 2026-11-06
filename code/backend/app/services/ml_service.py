@@ -139,11 +139,13 @@ class MLService:
             )
 
         model = self.models[model_name]
-        probability = float(model.predict_proba(features)[0][1])
+        raw_probabilities = model.predict_proba(features)
+
+        probability = float(raw_probabilities[0][1])
         return {
             "available": True,
             "model_used": model_name,
-            "fraud_score": round(probability, 4),
+            "fraud_score": round(probability, 8),
             "prediction": int(probability >= 0.5),
         }
 

@@ -20,8 +20,8 @@ FinShield-AI/
 └── member4_aml/         <- Member 4's aml/ python package
 ```
 
-If your folders are named differently, set `ML_MODELS_DIR` and `AML_PACKAGE_DIR`
-in `.env` instead of renaming anything.
+If your model files are stored elsewhere, set `ML_MODELS_DIR` in `.env` instead
+of renaming folders.
 
 ---
 
@@ -140,16 +140,20 @@ in the `risk_results` table.
 ### Member 1 — hybrid score (`app/risk.py`)
 
 ```
-final_risk_score = 0.6 × ml_fraud_score + 0.4 × aml_score
+if either score < 0.40:
+    final_risk_score = max(ml_fraud_score, aml_score)
+else:
+    final_risk_score = 0.6 × ml_fraud_score + 0.4 × aml_score
 
 HIGH   >= 0.70
 MEDIUM >= 0.40
 LOW     < 0.40
 ```
 
-Weights are in `.env` (`ML_WEIGHT`, `AML_WEIGHT`). The thresholds match the ones Member 4
-uses, so the two scores stay comparable. If one side is unavailable the other is used on
-its own, so a transaction is never scored 0 just because a model failed to load.
+When both scores are at least 0.40, the backend uses the weighted average. If either score
+is below 0.40 (the LOW risk band), it uses the higher score so the low value cannot dilute
+the other model's signal. If one side is unavailable, the available score is used. If both
+are unavailable, the score is 0.
 
 An alert is created automatically whenever the level is **not** LOW.
 

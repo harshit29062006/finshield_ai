@@ -10,9 +10,12 @@ ReDoc:       http://127.0.0.1:8000/redoc
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.config import AML_WEIGHT, ML_MODEL_NAME, ML_WEIGHT
+from app.config import ML_MODEL_NAME
 from app.database import Base, engine
-from app.routers import admin, alerts, analytics, auth, cases, transactions
+from app.risk import AML_WEIGHT, ML_WEIGHT
+from app.routers import (
+    admin, alerts, analytics, auth, cases, transactions, aml_testing
+)
 from app.services import aml_service
 from app.services.ml_service import ml_service
 
@@ -67,6 +70,7 @@ app.include_router(alerts.router)
 app.include_router(cases.router)
 app.include_router(analytics.router)
 app.include_router(admin.router)
+app.include_router(aml_testing.router)
 
 
 @app.get("/", tags=["System"])
@@ -89,4 +93,5 @@ def health():
         "aml_module_available": aml_service.AML_AVAILABLE,
         "aml_import_error": aml_service.AML_IMPORT_ERROR,
         "hybrid_weights": {"ml": ML_WEIGHT, "aml": AML_WEIGHT},
+        "score_combination": "weighted_average_unless_either_score_is_low",
     }

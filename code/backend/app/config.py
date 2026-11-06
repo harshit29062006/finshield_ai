@@ -46,17 +46,12 @@ ACCESS_TOKEN_EXPIRE_MINUTES = int(
     os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "120")
 )
 
-# Teammate code locations
+# Model files can be kept in the sibling ML folder or configured elsewhere.
 ML_MODELS_DIR = _path_setting("ML_MODELS_DIR", "ml/models")
-AML_PACKAGE_DIR = _path_setting("AML_PACKAGE_DIR", "member4_aml")
 
 # ML model used by the API
 # Supported options: xgboost, random_forest, logistic_regression
 ML_MODEL_NAME = os.getenv("ML_MODEL_NAME", "xgboost")
-
-# Hybrid risk scoring weights
-ML_WEIGHT = float(os.getenv("ML_WEIGHT", "0.6"))
-AML_WEIGHT = float(os.getenv("AML_WEIGHT", "0.4"))
 
 # Risk thresholds
 HIGH_RISK_THRESHOLD = float(
