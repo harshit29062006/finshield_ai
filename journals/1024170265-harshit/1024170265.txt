@@ -1,84 +1,228 @@
-DAY 1 – Project Structure Finalization and Team Coordination
+**Role:** Group Leader and Machine Learning / AML Developer
 
-Work Done:
+---
 
-As the group leader, I reviewed the overall project structure and finalized the major modules of the FinShield AI – Intelligent Financial Crime Detection and Investigation Platform.
-Reviewed the project proposal and ensured that the planned modules were aligned with the problem statement and project objectives.
-Finalized the responsibilities and technical work areas for all group members.
-Reviewed the previously prepared Gantt Chart, Use Case Diagram, Activity Diagram, Sequence Diagram, Collaboration Diagram, Data Flow Diagram and Class Diagram.
-Identified unnecessary or inconsistent elements in the diagrams and finalized the changes required to maintain consistency across the project documentation.
-Ensured that the project structure was feasible within the planned three-month development timeline.
-Established a common understanding of the data flow and interaction between the Transaction Management, Fraud Detection, AML Detection, Risk Scoring and Investigation components.
+## WEEK 1 – Project Structure Finalization and Team Coordination
 
-Outcome:
+### Work Done:
+- Reviewed the overall project structure and finalized the major modules of FinShield AI.
+- Studied the project proposal and ensured that the planned modules were aligned with the problem statement and project objectives.
+- Finalized the responsibilities and technical work areas for all group members.
+- Reviewed the Gantt Chart, Use Case Diagram, Activity Diagram, Sequence Diagram, Collaboration Diagram, Data Flow Diagram and Class Diagram.
+- Identified unnecessary or inconsistent elements in the diagrams and finalized the required corrections.
+- Established a common understanding of the data flow between Transaction Management, Fraud Detection, AML Detection, Risk Scoring and Investigation modules.
+- Ensured that the project scope was feasible within the planned three-month development timeline.
 
-The overall project structure and responsibilities were finalized, and the required corrections in the project diagrams and development plan were identified.
+### Outcome:
+The overall project structure, module distribution and team responsibilities were finalized. The required corrections in the project diagrams and development plan were also identified.
 
-DAY 2 – Dataset Collection and Exploratory Data Analysis
+---
 
-Work Done:
+## WEEK 2 – Dataset Collection and Exploratory Data Analysis
 
-Collected and prepared the required dataset for the initial machine learning component of FinShield AI.
-Used the PaySim dataset for developing and testing the initial fraud detection model.
-Studied the dataset structure and examined the available transaction-related attributes.
-Performed Exploratory Data Analysis (EDA) to understand the characteristics of the data.
-Checked the data types, missing values, duplicate records and distribution of important attributes.
-Studied the distribution of fraudulent and non-fraudulent transactions.
-Analyzed transaction types, transaction amounts and balance-related attributes.
-Identified important patterns and characteristics that could be useful for fraud detection.
-Ensured that the dataset schema was documented clearly so that the same structure could be followed by other members during integration.
+### Work Done:
+- Collected and prepared the PaySim dataset for the initial machine learning component.
+- Studied the dataset structure and examined the available transaction-related attributes.
+- Performed Exploratory Data Analysis (EDA) to understand the characteristics of the dataset.
+- Checked data types, missing values, duplicate records and the distribution of important attributes.
+- Studied the distribution of fraudulent and non-fraudulent transactions.
+- Analyzed transaction types, transaction amounts and balance-related attributes.
+- Identified important patterns that could be useful for detecting suspicious transactions.
+- Documented the dataset structure to maintain consistency during integration with other modules.
 
-Outcome:
+### Outcome:
+The PaySim dataset was successfully explored, and important transaction patterns and attributes required for developing the fraud detection model were identified.
 
-The PaySim dataset was understood and analyzed, and the important data characteristics required for the fraud detection component were identified.
+---
 
-DAY 3 – Data Preprocessing and Feature Preparation
+## WEEK 3 – Data Preprocessing and Feature Preparation
 
-Work Done:
+### Work Done:
+- Prepared the PaySim dataset for machine learning model development.
+- Performed data cleaning and preprocessing operations.
+- Removed duplicate records and checked for invalid or inconsistent values.
+- Converted numerical attributes into suitable numerical data types.
+- Applied appropriate encoding to the categorical transaction type attribute.
+- Selected relevant features required for fraud detection.
+- Prepared additional transaction-related features using balance changes, balance errors and transaction amount ratios.
+- Separated the input features and target variable for model training.
+- Verified the processed dataset and maintained consistency in the feature structure.
 
-Prepared the PaySim dataset for machine learning.
-Performed data cleaning and preprocessing operations.
-Removed duplicate records and checked the dataset for invalid or inconsistent values.
-Converted numerical attributes into appropriate numerical data types.
-Handled the categorical transaction type attribute using suitable encoding.
-Selected the relevant attributes required by the fraud detection model.
-Prepared the final feature set while maintaining consistency with the original dataset schema.
-Separated the input features and target variable for model training.
-Verified the final processed data before passing it to the machine learning stage.
+### Outcome:
+A clean and machine-learning-ready dataset was prepared with the required features for training and evaluating the fraud detection models.
 
-Outcome:
+---
 
-A clean and machine-learning-ready dataset was prepared while maintaining a consistent data structure for further integration with the FinShield AI system.
+## WEEK 4 – Machine Learning Model Development
 
-DAY 4 – Machine Learning Model Development
+### Work Done:
+- Developed the initial machine learning component for detecting fraudulent transactions using the processed PaySim dataset.
+- Trained different machine learning models, including Logistic Regression, Random Forest and XGBoost.
+- Tested the models using training and testing datasets.
+- Evaluated model performance using Precision, Recall, F1-score, ROC-AUC and PR-AUC.
+- Compared the performance of the trained models to understand their strengths and limitations.
+- Tested predictions using both normal and suspicious transaction examples.
+- Generated fraud prediction probabilities along with the predicted transaction class.
+- Reviewed the model outputs to prepare them for use in the Risk Scoring component.
 
-Work Done:
+### Outcome:
+The initial machine learning fraud detection component was developed and evaluated. Different models were compared, and their predictions and probabilities were prepared for further integration.
 
-Developed the initial machine learning component for fraud detection using the preprocessed PaySim dataset.
-Trained and tested the selected machine learning model for classifying transactions as fraudulent or non-fraudulent.
-Evaluated the model predictions using appropriate classification measures.
-Tested the model with both normal and high-risk transaction examples.
-Generated fraud prediction probabilities along with the predicted class.
-Converted the model output into a format that can later be used by the Risk Scoring component.
-Reviewed the model behavior and verified that it could distinguish between low-risk and suspicious transaction patterns.
+---
 
-Outcome:
+## WEEK 5 – Model Saving and Fraud Detection Simulation
 
-The initial ML-based fraud detection model was successfully developed and tested, producing fraud predictions and associated probabilities.
+### Work Done:
+- Saved the trained machine learning models and required preprocessing components in reusable `.pkl` files.
+- Organized the model files so that they could be loaded without retraining every time.
+- Developed Python files for performing fraud detection on new transaction inputs.
+- Created a prediction workflow in which transaction information passes through the preprocessing pipeline before being provided to the trained model.
+- Developed functions to generate fraud predictions and associated probabilities.
+- Tested the simulation using sample low-risk and high-risk transactions.
+- Verified the generated predictions and risk indications.
+- Organized the ML code into separate files for easier maintenance and backend integration.
 
-DAY 5 – Model Saving and Simulation Development
+### Outcome:
+The trained models and preprocessing components were saved successfully, and a working Python-based fraud detection simulation was prepared.
 
-Work Done:
+---
 
-Saved the trained machine learning model and the required preprocessing components in .pkl files for future reuse.
-Organized the trained model and preprocessing files so that they can be loaded without retraining the model every time.
-Developed Python (.py) files for simulating fraud detection using new transaction inputs.
-Created a simulation flow in which transaction information is provided to the preprocessing pipeline and then passed to the trained model.
-Tested the simulation using sample low-risk and high-risk transactions.
-Verified the generated prediction, fraud probability and risk indication.
-Prepared the ML component in a form that can later be connected with the backend and other FinShield AI modules.
-Documented the work completed during the initial development stage for updating the project journal.
+## WEEK 6 – AML Dataset Study and Analysis Development
 
-Outcome:
+### Work Done:
+- Studied the requirements of the Anti-Money Laundering (AML) component of FinShield AI.
+- Explored the AML transaction dataset and its available transaction-related information.
+- Reviewed the transaction patterns associated with suspicious financial activities.
+- Studied how transaction history could be used to identify unusual customer behaviour.
+- Worked on the AML analysis pipeline to process transaction information and historical records.
+- Developed and organized the AML analysis code into separate modules.
+- Prepared the initial structure for rule-based checks, behaviour analysis and network analysis.
+- Ensured that the AML module could produce structured outputs for further integration.
 
-The trained model and preprocessing components were stored for reuse, and a working Python-based fraud detection simulation was prepared for future integration with the FinShield AI backend.
+### Outcome:
+The initial AML analysis structure was prepared, and the required transaction patterns and analysis methods were identified for detecting potentially suspicious activities.
+
+---
+
+## WEEK 7 – AML Rules and Behaviour Analysis
+
+### Work Done:
+- Worked on implementing rule-based checks for identifying suspicious transaction patterns.
+- Added checks for high-value transactions and frequent transactions within a specified time period.
+- Implemented checks for large transactions involving new receivers.
+- Developed logic to identify sudden increases in transaction amounts compared with historical activity.
+- Worked on behaviour analysis by comparing current transactions with the sender's previous transaction history.
+- Implemented calculations to identify unusual transaction amounts and changes in customer activity.
+- Tested the AML rules using different transaction examples and historical records.
+- Reviewed the generated rule scores and behaviour scores.
+
+### Outcome:
+The AML rule engine and behaviour analysis components were developed and tested using sample transaction histories to identify potentially suspicious activities.
+
+---
+
+## WEEK 8 – Network Analysis and AML Risk Scoring
+
+### Work Done:
+- Worked on the network analysis component to study relationships between senders and receivers.
+- Implemented checks for multiple transactions involving different receivers and multiple senders.
+- Added logic to identify reciprocal transaction relationships.
+- Integrated rule-based analysis, behaviour analysis and network analysis into the AML processing workflow.
+- Worked on calculating the overall AML score using the individual component scores.
+- Implemented risk categorisation based on the configured AML score thresholds.
+- Tested the AML module using different transaction scenarios, including normal activity, new receivers, repeated transactions and suspicious transaction patterns.
+- Reviewed the AML output, including triggered rules, risk levels and supporting observations.
+
+### Outcome:
+The major AML analysis components were brought together into a common workflow that generated AML scores, risk levels and supporting information for suspicious transactions.
+
+---
+
+## WEEK 9 – Explainable AI and Investigation Support
+
+### Work Done:
+- Worked on integrating explainability into the machine learning fraud detection component.
+- Used SHAP to understand the contribution of individual transaction features to model predictions.
+- Analyzed important features influencing fraud predictions, including sender balance changes, balance errors, transaction amounts and fraud-related flags.
+- Prepared explanation outputs to make machine learning predictions easier to understand.
+- Worked on AML explanation functionality to provide reasons behind suspicious transaction scores.
+- Reviewed the investigation summary generated by the AML analysis module.
+- Worked on organizing the explanation outputs so that they could be presented through the FinShield AI interface.
+- Studied how explainability could help analysts understand why a transaction was marked as suspicious.
+
+### Outcome:
+Explainability support was developed for the ML and AML components, allowing the system to provide additional information about the factors contributing to transaction risk.
+
+---
+
+## WEEK 10 – Backend Integration and API Coordination
+
+### Work Done:
+- Reviewed the backend structure developed using FastAPI and PostgreSQL.
+- Coordinated with the backend team to understand the integration requirements of the ML and AML modules.
+- Reviewed the backend service structure and identified the required connections with the fraud detection and AML analysis components.
+- Worked on preparing the ML prediction functionality for backend integration.
+- Worked on connecting the AML analysis pipeline with the backend service.
+- Reviewed the input and output formats to maintain consistency between the ML, AML and backend components.
+- Tested the integrated transaction screening workflow through the backend API.
+- Checked whether transaction information and analysis results were being processed and returned correctly.
+
+### Outcome:
+The ML and AML components were prepared and connected with the backend transaction-screening workflow, allowing the system to process transactions through the integrated application.
+
+---
+
+## WEEK 11 – Hybrid Risk Scoring and System Testing
+
+### Work Done:
+- Worked on the hybrid risk-scoring mechanism to combine the ML fraud score and AML score.
+- Updated the scoring logic to use a conditional approach based on the 0.40 threshold.
+- Implemented the selection of the AML score when the ML score is below 0.40 and the AML score reaches the threshold.
+- Implemented the selection of the ML score when the AML score is below 0.40 and the ML score reaches the threshold.
+- Added weighted scoring when both ML and AML scores are at least 0.40.
+- Reviewed the final risk categorisation into LOW, MEDIUM and HIGH levels.
+- Prepared and executed test scenarios covering large transfers, new receivers, repeated transactions and routine payments.
+- Tested AML edge cases and realistic transaction histories to review the behaviour of the analysis pipeline.
+- Reviewed the generated scores, triggered rules and investigation summaries.
+
+### Outcome:
+The conditional hybrid risk-scoring approach was incorporated into the system, and different transaction scenarios were tested to evaluate the behaviour of the integrated screening workflow.
+
+---
+
+## WEEK 12 – Final Testing, Documentation and Project Review
+
+### Work Done:
+- Reviewed the overall implementation of the FinShield AI project and the interaction between its major modules.
+- Performed final checks on the ML prediction, AML analysis and hybrid risk-scoring workflows.
+- Reviewed the frontend transaction submission process and the results displayed after screening.
+- Finalized the selected test cases for demonstrating normal and suspicious transaction patterns.
+- Reviewed the system diagrams, including the component and deployment diagrams, for consistency with the implemented architecture.
+- Updated the project report with implementation details, testing methodology, model evaluation results and project findings.
+- Organized the technical documentation and updated the project journal.
+- Reviewed the limitations of the current prototype and identified possible improvements for future development.
+- Coordinated with team members to ensure that the project documentation and final demonstration were aligned with the implemented system.
+
+### Outcome:
+The major project modules, testing activities and technical documentation were reviewed and organized. The project was prepared for its final demonstration and evaluation.
+
+---
+
+# Overall Project Contribution
+
+During the twelve-week development period, I contributed to the planning, development, integration and testing of FinShield AI as the group leader and the developer responsible for the ML and AML-related work.
+
+My major contributions included:
+
+- Finalizing the project structure, module distribution and development plan.
+- Collecting, exploring and preprocessing the PaySim dataset.
+- Developing and evaluating Logistic Regression, Random Forest and XGBoost fraud detection models.
+- Saving trained models and developing a reusable fraud detection simulation.
+- Developing AML rule-based checks, behaviour analysis and network analysis.
+- Working on AML scoring, investigation summaries and transaction explanations.
+- Implementing SHAP-based explainability for machine learning predictions.
+- Coordinating the integration of ML and AML components with the FastAPI backend.
+- Working on conditional hybrid risk scoring and testing different transaction scenarios.
+- Reviewing project diagrams, preparing technical documentation and coordinating the overall project work.
+
+**Overall Outcome:** The project progressed from initial planning and dataset preparation to the development and integration of its major fraud detection and AML components. The work established a functional prototype of FinShield AI for transaction screening, risk assessment and investigation support.
