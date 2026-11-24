@@ -16,6 +16,8 @@ const LINKS = [
   { to: "/alerts", label: "Alert queue", roles: STAFF },
   { to: "/cases", label: "Cases", roles: STAFF },
   { to: "/admin", label: "Administration", roles: ["ADMIN", "COMPLIANCE"] },
+  { to: "/aml-testing", label: "AML Testing", roles: ["ADMIN"] },
+  { to: "/paysim-testing", label: "PaySim Model Testing", roles: ["ADMIN"] },
 ];
 
 export default function Layout({ children }) {

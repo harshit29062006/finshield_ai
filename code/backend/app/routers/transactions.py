@@ -53,7 +53,11 @@ def _to_ml_dict(transaction: Transaction) -> dict:
     }
 
 
-def run_analysis(db: Session, transaction: Transaction) -> tuple[RiskResult, dict | None]:
+def run_analysis(
+    db: Session,
+    transaction: Transaction,
+    commit: bool = True,
+) -> tuple[RiskResult, dict | None]:
     """Run ML + AML on a transaction, save the result and create an alert."""
     ml_result = ml_service.predict(_to_ml_dict(transaction))
     aml_result = aml_service.analyze(db, transaction)
@@ -118,7 +122,11 @@ def run_analysis(db: Session, transaction: Transaction) -> tuple[RiskResult, dic
         # Remove stale, unlinked alerts if a re-analysis lowers risk to LOW.
         db.delete(existing_alert)
 
-    db.commit()
+    if commit:
+        db.commit()
+    else:
+        db.flush()
+
     db.refresh(risk)
 
     return risk, {

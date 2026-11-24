@@ -143,4 +143,3 @@ def test_reanalysis_does_not_create_duplicate_unlinked_alert():
     alerts = client.get("/api/alerts", headers=analyst)
     matching = [item for item in alerts.json() if item["transaction_id"] == transaction_id]
     assert len(matching) == 1
-

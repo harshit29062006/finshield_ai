@@ -10,6 +10,8 @@ import Login from "./pages/Login";
 import SubmitTransaction from "./pages/SubmitTransaction";
 import TransactionDetail from "./pages/TransactionDetail";
 import Transactions from "./pages/Transactions";
+import AMLTesting from "./pages/AMLTesting.jsx";
+import PaySimTesting from "./pages/PaySimTesting.jsx";
 
 // Only lets a signed-in user through, and only if their role is allowed.
 function Protected({ children, roles }) {
@@ -50,6 +52,23 @@ export default function App() {
         element={
           <Protected>
             <TransactionDetail />
+          </Protected>
+        }
+      />  
+      <Route
+        path="/aml-testing"
+        element={
+          <Protected roles={["ADMIN"]}>
+            <AMLTesting />
+          </Protected>
+        }
+      />
+
+      <Route
+        path="/paysim-testing"
+        element={
+          <Protected roles={["ADMIN"]}>
+            <PaySimTesting />
           </Protected>
         }
       />

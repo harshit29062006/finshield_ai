@@ -1,7 +1,7 @@
 ==============================================================================
 FINSHIELD AI - AML COMPREHENSIVE SCENARIO TESTING
 ==============================================================================
-Total scenarios: 15
+Total scenarios: 17
 AML score formula: 45% rule + 35% behaviour + 20% network
 Risk thresholds: LOW < 0.40 | MEDIUM 0.40-0.6999 | HIGH >= 0.70
 
@@ -428,7 +428,7 @@ TEST RESULT: PASS
 ------------------------------------------------------------------------------
 06 - Four transactions in 24 hours
 ------------------------------------------------------------------------------
-Purpose: Checks frequency when only four transactions exist including current.
+Purpose: Checks frequency when four transactions exist including current.
 Sender: S06
 Receiver: R06
 Amount: 1,000.00 USD
@@ -1070,7 +1070,7 @@ TEST RESULT: PASS
 ------------------------------------------------------------------------------
 14 - Combined high-risk indicators
 ------------------------------------------------------------------------------
-Purpose: Combines high amount, new receiver, frequency, and unusual behaviour.
+Purpose: Combines high amount, new receiver, frequency and unusual behaviour.
 Sender: S14
 Receiver: R14_NEW
 Amount: 150,000.00 USD
@@ -1252,11 +1252,183 @@ Important: This is a rule-based prototype assessment, not proof of money launder
 
 TEST RESULT: PASS
 
+------------------------------------------------------------------------------
+16 - Standalone high-value transaction
+------------------------------------------------------------------------------
+Purpose: Tests a 150,000 high-value transaction without other suspicious indicators.
+Sender: S16
+Receiver: R16
+Amount: 150,000.00 USD
+Timestamp: 2026/10/29 10:00
+Payment type: TRANSFER
+Historical transaction count: 0
+
+--- AML COMPONENT SCORES ---
+Rule score: 0.5
+Behaviour score: 0.2
+Network score: 0.0
+Final AML score: 0.295
+Final AML percentage: 29.50%
+Risk level: LOW
+
+--- TRIGGERED RULES ---
+[
+    "HIGH_AMOUNT",
+    "NEW_RECEIVER_LARGE_AMOUNT"
+]
+
+--- REASONS ---
+[
+    "Transaction amount is unusually high.",
+    "Large transfer to a receiver not previously seen in the history.",
+    "No historical activity was supplied for comparison.",
+    "No strong relationship anomaly was found in the supplied history."
+]
+
+--- NOTIFICATION ---
+{
+    "should_notify": false,
+    "channels": [],
+    "message": "No alert notification required."
+}
+
+--- INVESTIGATION SUMMARY ---
+{'summary': 'Transaction S16 -> R16 has AML score 0.29 and risk level LOW.', 'investigation_steps': ["Review the customer's recent transaction history.", 'Verify the source and purpose of funds.', 'Review linked accounts and counterparties.'], 'disclaimer': 'This assistant supports investigation and does not determine that a crime occurred.'}
+
+--- DETAILED AML EXPLANATION ---
+DETAILED AML TRANSACTION EXPLANATION
+==========================================
+Transaction ID: Not provided
+Sender ID: S16
+Receiver ID: R16
+Transaction amount: 150,000.00
+Timestamp: 2026/10/29 10:00
+
+OVERALL RISK ASSESSMENT
+AML risk score: 0.2950 (29.50%)
+Risk level: LOW
+
+RULE-BASED ANALYSIS
+Rule score: 0.50
+Triggered rules:
+- High transaction amount (HIGH_AMOUNT): The transaction amount crossed the configured high-amount threshold.
+- Large transfer to a new receiver (NEW_RECEIVER_LARGE_AMOUNT): The sender transferred a large amount to a receiver not found in the supplied transaction history.
+Rule observations:
+- Transaction amount is unusually high.
+- Large transfer to a receiver not previously seen in the history.
+
+BEHAVIOR ANALYSIS
+Behavior score: 0.20
+Historical transactions for sender: 0
+Current transaction amount: 150,000.00
+No previous transactions for this sender were supplied. The behavior assessment is therefore limited.
+Behavior observations:
+- No historical activity was supplied for comparison.
+
+NETWORK ANALYSIS
+Network score: 0.00
+Sender: S16
+Receiver: R16
+Network observations:
+- No strong relationship anomaly was found in the supplied history.
+Network analysis is based only on the current transaction because no transaction history was supplied.
+
+FINAL INTERPRETATION
+The transaction has a low AML risk score under the current prototype. This does not guarantee that the transaction is safe.
+Important: This is a rule-based prototype assessment, not proof of money laundering. A qualified investigator should review the available evidence before making a decision.
+
+TEST RESULT: PASS
+
+------------------------------------------------------------------------------
+17 - Six repeated transactions in 24 hours
+------------------------------------------------------------------------------
+Purpose: Checks HIGH_FREQUENCY with six transactions including current.
+Sender: S17
+Receiver: R17
+Amount: 1,000.00 USD
+Timestamp: 2026/10/29 10:00
+Payment type: TRANSFER
+Historical transaction count: 5
+
+--- AML COMPONENT SCORES ---
+Rule score: 0.25
+Behaviour score: 0.0
+Network score: 0.6
+Final AML score: 0.2325
+Final AML percentage: 23.25%
+Risk level: LOW
+
+--- TRIGGERED RULES ---
+[
+    "HIGH_FREQUENCY"
+]
+
+--- REASONS ---
+[
+    "Too many transactions were made in a short time window.",
+    "Transaction is broadly consistent with the supplied history.",
+    "Sender is connected to many transactions.",
+    "Receiver is connected to many incoming transactions."
+]
+
+--- NOTIFICATION ---
+{
+    "should_notify": false,
+    "channels": [],
+    "message": "No alert notification required."
+}
+
+--- INVESTIGATION SUMMARY ---
+{'summary': 'Transaction S17 -> R17 has AML score 0.23 and risk level LOW.', 'investigation_steps': ["Review the customer's recent transaction history.", 'Verify the source and purpose of funds.', 'Review linked accounts and counterparties.', 'Check transaction timing for rapid movement of funds.', 'Inspect connected accounts for possible transaction chains.'], 'disclaimer': 'This assistant supports investigation and does not determine that a crime occurred.'}
+
+--- DETAILED AML EXPLANATION ---
+DETAILED AML TRANSACTION EXPLANATION
+==========================================
+Transaction ID: Not provided
+Sender ID: S17
+Receiver ID: R17
+Transaction amount: 1,000.00
+Timestamp: 2026/10/29 10:00
+
+OVERALL RISK ASSESSMENT
+AML risk score: 0.2325 (23.25%)
+Risk level: LOW
+
+RULE-BASED ANALYSIS
+Rule score: 0.25
+Triggered rules:
+- High transaction frequency (HIGH_FREQUENCY): The sender made several transactions within the configured time window.
+Rule observations:
+- Too many transactions were made in a short time window.
+
+BEHAVIOR ANALYSIS
+Behavior score: 0.00
+Historical transactions for sender: 5
+Current transaction amount: 1,000.00
+Historical average transaction amount: 800.00
+Current amount / historical average: 1.25x
+Behavior observations:
+- Transaction is broadly consistent with the supplied history.
+
+NETWORK ANALYSIS
+Network score: 0.60
+Sender: S17
+Receiver: R17
+Network observations:
+- Sender is connected to many transactions.
+- Receiver is connected to many incoming transactions.
+
+FINAL INTERPRETATION
+The transaction has a low AML risk score under the current prototype. This does not guarantee that the transaction is safe.
+Important: This is a rule-based prototype assessment, not proof of money laundering. A qualified investigator should review the available evidence before making a decision.
+
+TEST RESULT: PASS
+
 ==============================================================================
 AML TESTING SUMMARY
 ==============================================================================
-Total scenarios: 15
-Passed: 15
+Total scenarios: 17
+Passed: 17
 Failed: 0
 CSV report: /Users/harshitgoyal/Desktop/UCS503P/finshield_ai/code/ml/reports/aml_scenario_results.csv
 Text report: /Users/harshitgoyal/Desktop/UCS503P/finshield_ai/code/ml/reports/aml_scenario_results.txt

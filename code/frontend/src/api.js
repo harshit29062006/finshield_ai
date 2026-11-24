@@ -96,6 +96,16 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ note }),
     }),
+  
+  runAmlTests: () =>
+    request("/api/admin/aml-testing/run", {
+      method: "POST",
+    }),
+  
+  runPaySimTests: () =>
+    request("/api/admin/paysim-testing/run", {
+      method: "POST",
+    }),
 
   users: () => request("/api/admin/users"),
   changeRole: (id, role) =>
