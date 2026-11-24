@@ -1,0 +1,783 @@
+\documentclass{tietreport}
+
+% Import images
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{float}
+
+% Bibliography configuration
+\usepackage[
+  date=year,
+  style=alphabetic,
+  backend=biber,
+  sorting=nty,
+  maxnames=5,
+  minnames=3,
+  maxalphanames=4,
+  minalphanames=3,
+  backref=true,
+  doi=false,
+  isbn=false,
+  url=false,
+  eprint=false
+]{biblatex}
+\addbibresource{references.bib}
+
+%% ==================================================
+%% CUSTOMIZE THESE FIELDS FOR YOUR PROJECT
+%% ==================================================
+
+% Course/Lab header
+\TitlePageHeader{%
+  UCS503P - Software Engineering Project%
+}
+
+% Main project title
+\ProjectTitle{%
+  FinShield AI%
+}
+
+% Subtitle or project description
+\ProjectSubTitle{%
+  Intelligent Financial Crime Detection \& Investigation Platform%
+}
+
+% Student information (up to 4 students)
+\author{%
+  \texttt{1024170265} Harshit Goyal \\
+  \texttt{1024170057} Arnav Gupta \\
+  \texttt{1024170274} Dikshit Gupta \\
+  \texttt{1024170269} Jasmandeep Sharma%
+}
+
+% Group number, degree, year, program
+\TitlePageSubText{%
+  Group: \texttt{1} , BE Third Year, CSE%
+}
+
+% Faculty advisor/guide name
+\AdvisorName{%
+   Nisha Thakur%
+}
+
+% Evaluation period and department info
+\TitlePageFooterText{{%
+    \large Final Stage Evaluation \\[0.2cm]
+    \bfseries Computer Science and Engineering
+    Department%
+  } \\[0.15cm]
+  Thapar Institute of Engineering and Technology,
+  Patiala%
+}
+
+%% ==================================================
+\let\cleardoublepage\clearpage
+
+\begin{document}
+% Generate title page
+\maketitle
+\tableofcontents
+
+% ===== CHAPTER 1: INTRODUCTION =====
+
+\chapter{Introduction}
+\section{Background and Context}
+
+Financial fraud and money laundering involve large numbers of transactions
+that may contain complex and changing patterns. Traditional approaches that
+depend only on fixed rules are often insufficient to identify all suspicious
+activities. FinShield AI is an intelligent financial crime detection and
+investigation platform that combines machine learning, rule-based analysis,
+user behavior analysis, risk scoring, and investigation support.
+
+The system receives transaction data, validates and preprocesses it,
+analyzes each transaction using multiple detection approaches, and assigns
+a risk level. Suspicious transactions are converted into alerts and
+investigation cases for analysts. Explainable AI techniques and an AI-based
+investigation assistant are integrated to support the investigation process.
+
+\subsection{Problem Statement}
+
+Financial institutions must quickly detect suspicious transactions without overwhelming investigators with false positives, a common pitfall of single-method systems. FinShield AI tackles this by unifying machine learning, AML rules, behavioral tracking, and hybrid risk scoring into one platform. Beyond detection, the system delivers clear risk explanations and investigative tools to help analysts act decisively.
+
+\section{Project Objectives}
+
+\begin{enumerate}
+  \item \textbf{Objective 1:} Develop a secure platform for managing users,
+    roles, and financial transaction data.
+  \item \textbf{Objective 2:} Detect suspicious financial transactions using
+    machine learning, AML rules, and user behavior analysis.
+  \item \textbf{Objective 3:} Combine different detection results to generate
+    a meaningful risk score and identify high-risk transactions.
+  \item \textbf{Objective 4:} Support fraud investigation through alerts,
+    explainable predictions, case management, and investigation assistance.
+  \item \textbf{Objective 5:} Provide dashboards and reports for analysts,
+    compliance officers, and system administrators.
+\end{enumerate}
+
+% ===== CHAPTER 2: METHODOLOGY & DESIGN =====
+
+\chapter{Methodology and Design}
+
+\section{System Architecture}
+
+FinShield AI follows a modular architecture in which the frontend interacts
+with the backend through REST APIs. The backend manages authentication,
+transactions, fraud analysis, alerts, investigations, and communication with
+the database. The fraud analysis layer contains machine learning, AML rule
+processing, and user behavior analysis, whose outputs are combined by the
+hybrid risk scoring component.
+
+\subsection{High-Level Design}
+
+The high-level design separates the system into user interaction,
+application services, fraud intelligence, and data storage components.
+Customers and users submit transactions through the interface. The backend
+validates the transaction and passes the required information to the
+fraud-analysis components. The resulting risk information is stored and
+made available to analysts and compliance officers for further action.
+
+
+% --------------------------------------------------
+% Diagrams
+% --------------------------------------------------
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{gantt_chart.jpeg}
+  \caption{Three-Month Project Gantt Chart}
+  \label{fig:gantt}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{ucd.jpeg}
+  \caption{Use Case Diagram of FinShield AI}
+  \label{fig:usecase}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{activity_diagram.jpeg}
+  \caption{Activity Diagram of FinShield AI}
+  \label{fig:activity}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{use_case_template_1.png}
+  \caption{Use Case Template: User Authentication \& Profile Management}
+  \label{fig:usecase_1}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{use_case_template_2.png}
+  \caption{Use Case Template: Transaction Management}
+  \label{fig:usecase_2}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{use_case_template_3.png}
+  \caption{Use Case Template: ML Fraud Detection \& Risk Scoring}
+  \label{fig:usecase_3}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{use_case_template_4.png}
+  \caption{Use Case Template: Fraud Alert \& Notification}
+  \label{fig:usecase_4}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \noindent\makebox[\textwidth][c]{%
+    \includegraphics[width=0.88\textwidth]{use_case_template_5.png}%
+  }
+  \caption{Use Case Template: Fraud Case Investigation}
+  \label{fig:usecase_5}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{use_case_template_6.png}
+  \caption{Use Case Template: Explainable AI Analysis}
+  \label{fig:usecase_6}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{use_case_template_7.png}
+  \caption{Use Case Template: System \& Rule Management}
+  \label{fig:usecase_7}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{use_case_template_8.png}
+  \caption{Use Case Template: Risk Reports \& Compliance Analytics}
+  \label{fig:usecase_8}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{collaboration_diagram.jpeg}
+  \caption{Collaboration Diagram of FinShield AI}
+  \label{fig:collaboration}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{sequence_diagram.jpeg}
+  \caption{Sequence Diagram of FinShield AI}
+  \label{fig:sequence}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{Level0_DFD.drawio.png}
+  \caption{Level 0 Data Flow Diagram}
+  \label{fig:dfd_0}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{Level1_DFD.drawio.png}
+  \caption{Level 1 Data Flow Diagram}
+  \label{fig:dfd_1}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{Level2_DFD.drawio.png}
+  \caption{Level 2 Data Flow Diagram}
+  \label{fig:dfd_2}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{Class_Diagram.drawio.png}
+  \caption{Class Diagram}
+  \label{fig:class}
+\end{figure}
+
+\subsection{Technical Stack}
+
+\begin{itemize}
+  \item \textbf{Framework/Language:} Python (FastAPI) for machine learning and
+    backend services, paired with a modern web-based frontend.
+  \item \textbf{Database:} PostgreSQL for structured storage of users,
+    transactions, alerts, investigations, and audit records.
+  \item \textbf{Tools:} Git and GitHub for version control and collaborative
+    development; Jupyter Notebook for exploratory data analysis and model experiments.
+  \item \textbf{Libraries:} Pandas and NumPy for data processing, Scikit-learn
+    and XGBoost for model training, and SHAP for model explainability.
+\end{itemize}
+
+\section{Implementation Details}
+
+The FinShield AI system is developed in modular layers so that each
+component operates independently while adhering to a unified architecture
+and common transaction data schema. Over the three-month development cycle,
+the platform progressed from core transaction ingestion and baseline detection
+to full integration of hybrid risk scoring, explainable AI, alert queues,
+investigation case management, and monitoring dashboards.
+
+\subsection{Implemented System Modules}
+
+\subsubsection*{Authentication and RBAC}
+
+The Authentication and Role-Based Access Control (RBAC) module provides
+secure access to the platform. Users are authenticated before accessing
+protected functionality, and permissions are enforced according to their
+assigned roles: Customer/User, Analyst/Investigator, Compliance Officer,
+and System Administrator. This separation ensures that each actor can
+access only the functions relevant to their responsibilities.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{authentication.jpeg}
+  \caption{Authentication and RBAC}
+  \label{fig:authentication_rbac}
+\end{figure}
+
+
+\subsubsection*{Transaction Management}
+
+The Transaction Management module handles the submission, validation, and
+storage of transaction records. When a transaction is received by the
+system, it is validated against the common schema and routed through the
+fraud-detection pipeline, establishing a seamless connection between user
+transaction input and real-time risk screening.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{transaction.jpeg}
+  \caption{Transaction Management}
+  \label{fig:transaction}
+\end{figure}
+
+
+\subsubsection*{ML Fraud Detection}
+
+The ML Fraud Detection module uses engineered transaction and balance
+attributes to identify potentially fraudulent activity. Development
+encompassed dataset analysis, common schema definition, preprocessing,
+and comparative model training. Model performance is evaluated using
+imbalance-aware fraud-detection metrics—precision, recall, F1-score,
+ROC-AUC, and PR-AUC—rather than relying solely on accuracy.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{ml.jpeg}
+  \caption{ML Fraud Detection}
+  \label{fig:ml}
+\end{figure}
+
+
+\subsubsection*{AML Detection}
+
+The AML Detection module provides rule-based and behavioral analysis for
+identifying transactions indicative of money laundering. Built on the
+common transaction schema, its rule engine evaluates transaction history
+and feeds its risk score directly into the hybrid risk-scoring workflow
+alongside the machine learning output.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{aml.jpeg}
+  \caption{AML Detection}
+  \label{fig:aml}
+\end{figure}
+
+
+\subsection{Data and Schema Architecture}
+
+The system enforces a common transaction-data schema across all modules.
+Datasets are standardized so that the ML, AML, behavioral, backend, and
+frontend components operate on a consistent representation of transaction
+records. A data dictionary documents the meaning and data type of each
+field, and automated preprocessing pipelines transform raw inputs before
+inference.
+
+Treating the schema as a shared contract across modules ensures clean
+interoperability between the detection engines, database layer, and user
+interface.
+
+\subsection{System Integration Status}
+
+At the final evaluation stage, all core functional layers have been
+integrated into an end-to-end working application. Transaction ingestion,
+ML inference, AML rule evaluation, hybrid risk scoring, SHAP explainability,
+alert generation, investigation case tracking, and role-based monitoring
+dashboards operate together as a cohesive platform.
+
+
+% ===== CONTINUATION: IMPLEMENTATION, TESTING AND CONCLUSION =====
+
+\subsection{Backend and API Integration}
+
+The backend acts as the central orchestration layer between the frontend,
+database, and fraud-analysis modules. Built using FastAPI, it exposes REST
+API endpoints for authentication, transaction management, alerts, analytics,
+and investigation cases. The backend validates incoming transaction data,
+persists accepted records in PostgreSQL, and coordinates the screening
+services.
+
+The transaction-screening workflow connects the transaction-management
+module with the machine-learning and AML services. The resulting risk
+scores, triggered rules, and explanations are stored alongside the
+transaction so that authorised staff can review them immediately.
+API-based communication keeps the frontend decoupled from the internal
+implementation of the detection engines.
+
+\subsection{AML Rules, Behaviour Analysis and Risk Scoring}
+
+The AML module evaluates transaction activity using rule-based checks and
+historical account activity. Implemented rules detect unusually large
+transaction amounts, high transaction frequency within a short time window,
+large transfers to new receivers, and sudden spikes relative to a sender's
+historical baseline. Network analysis further inspects relationships
+between senders and receivers.
+
+The AML engine outputs an AML score, a risk level, triggered rules, and
+supporting observations. The hybrid risk-scoring module combines the
+machine-learning (ML) fraud score and the AML score using a conditional
+aggregation approach. The system first checks whether each score has
+reached the threshold of 0.40.
+
+If the ML score is below 0.40 while the AML score is at least 0.40, the
+AML score is adopted as the final hybrid score. Similarly, if the AML score
+is below 0.40 while the ML score is at least 0.40, the ML score is adopted
+as the final hybrid score. If both scores are at least 0.40, the system
+calculates a weighted score, assigning 0.60 weight to the ML score and
+0.40 weight to the AML score. If both scores are below 0.40, the higher
+of the two scores is selected so that the stronger signal is retained.
+
+The scoring approach is represented as follows:
+
+\[
+H =
+\begin{cases}
+A, & M < 0.40 \text{ and } A \geq 0.40,\\
+M, & A < 0.40 \text{ and } M \geq 0.40,\\
+0.60M + 0.40A, & M \geq 0.40 \text{ and } A \geq 0.40,\\
+\max(M,A), & M < 0.40 \text{ and } A < 0.40.
+\end{cases}
+\]
+
+Here, $H$ represents the final hybrid risk score, $M$ represents the
+machine-learning fraud score, and $A$ represents the AML score. A score
+exactly equal to 0.40 is treated as having reached the threshold.
+
+The final hybrid score is classified into three risk levels: HIGH for
+scores greater than or equal to 0.70, MEDIUM for scores greater than or
+equal to 0.40 and less than 0.70, and LOW for scores below 0.40. This
+conditional formulation prevents a low score from one engine from diluting
+a strong fraud or laundering signal detected by the other.
+
+\subsection{Alerts and Investigation Support}
+
+Transactions flagged as medium or high risk are automatically routed to
+the alert queue for review by authorised analysts. Each alert displays
+the risk level, hybrid score, triggered rules, and review status. The
+case-management module enables investigators to open formal cases,
+record investigation notes, update case statuses, and log final outcomes,
+completing the workflow from detection to resolution.
+
+\subsection{Explainability and Monitoring}
+
+FinShield AI incorporates explainability features to make model outputs
+transparent and actionable. SHAP-based feature contributions highlight
+which transaction attributes most strongly influenced a machine-learning
+prediction. In addition, the platform provides analytical dashboards for
+monitoring screened transactions, active alerts, and ongoing investigation
+cases, empowering analysts to make informed decisions rather than relying
+on opaque risk scores.
+
+\subsection{Component Diagram}
+
+The component diagram illustrates the main software components of FinShield AI
+and the interfaces between the frontend, backend services, fraud analysis
+modules, and database.
+
+\begin{figure}[htbp]
+  \centering
+  \IfFileExists{component_diagram.jpeg}{
+    \includegraphics[width=0.95\textwidth]{component_diagram.jpeg}
+  }{
+    \fbox{\parbox[c][5cm][c]{0.88\textwidth}{\centering
+      \textbf{Component Diagram Placeholder}\\[0.3cm]
+      Upload \texttt{component\_diagram.jpeg} to the Overleaf project.}}
+  }
+  \caption{Component Diagram of FinShield AI}
+  \label{fig:component}
+\end{figure}
+
+\subsection{Deployment Diagram}
+
+The deployment diagram illustrates the runtime architecture of the
+frontend, backend API, machine-learning and AML services, and PostgreSQL
+database, including the communication protocols between these nodes.
+
+\begin{figure}[htbp]
+  \centering
+  \IfFileExists{deployment_diagram.jpeg}{
+    \includegraphics[width=0.95\textwidth]{deployment_diagram.jpeg}
+  }{
+    \fbox{\parbox[c][5cm][c]{0.88\textwidth}{\centering
+      \textbf{Deployment Diagram Placeholder}\\[0.3cm]
+      Upload \texttt{deployment\_diagram.jpeg} to the Overleaf project.}}
+  }
+  \caption{Deployment Diagram of FinShield AI}
+  \label{fig:deployment}
+\end{figure}
+
+% ===== CHAPTER 3: RESULTS AND EVALUATION =====
+
+\chapter{Results and Evaluation}
+
+\section{Testing Methodology}
+
+Testing was carried out across multiple levels to verify the correctness of
+individual modules and the end-to-end interaction between the frontend,
+backend, database, and fraud-analysis services.
+
+\begin{itemize}
+  \item \textbf{Unit Testing:} Individual AML rules and machine-learning
+  inference functions were tested with normal and suspicious transaction
+  inputs.
+  \item \textbf{Integration Testing:} API and backend integration tests
+  verified that transaction submission, risk scoring, database persistence,
+  and retrieval operate reliably together.
+  \item \textbf{Functional Testing:} End-to-end test scenarios verified
+  transaction screening, risk categorisation, alert generation, and routine
+  transaction clearance.
+  \item \textbf{User Interface Testing:} Frontend forms, dashboards, and
+  alert views were verified to confirm smooth transaction submission and
+  result inspection.
+  \item \textbf{Hybrid Scoring Tests:} Conditional aggregation logic was
+  verified across boundary conditions where one score is below 0.40, both
+  scores are at least 0.40, and both scores are below 0.40.
+\end{itemize}
+
+Table~\ref{tab:hybridtests} presents test cases verifying the conditional
+hybrid scoring logic across all decision branches.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \begin{tabular}{cccc}
+    \hline
+    \textbf{ML Score} & \textbf{AML Score} &
+    \textbf{Expected Hybrid Score} & \textbf{Scoring Condition} \\
+    \hline
+    0.30 & 0.80 & 0.80 & AML score selected \\
+    0.80 & 0.30 & 0.80 & ML score selected \\
+    0.60 & 0.80 & 0.68 & Weighted calculation \\
+    0.90 & 0.70 & 0.82 & Weighted calculation \\
+    0.20 & 0.30 & 0.30 & Higher score selected \\
+    \hline
+  \end{tabular}
+  \caption{Verification Test Cases for Conditional Hybrid Risk Scoring}
+  \label{tab:hybridtests}
+\end{table}
+
+\section{Selected Functional Test Cases}
+
+Four representative functional test cases were executed on the completed
+system to validate high-, medium-, and low-risk transaction screening
+workflows.
+
+\subsection{Test Case 1.1: Large Transfer Emptying the Sender Account}
+
+A transfer of 200,000 is submitted from sender account \texttt{s2}, whose
+balance decreases from 200,000 to zero. The receiver account is
+\texttt{r2}, with its balance increasing from 5,000 to 205,000. The
+receiver has no earlier transaction history in this test setup.
+
+\textbf{Observed outcome:} The transaction is classified as high risk
+due to the large transfer amount, account depletion, and transfer to a
+new receiver. An alert is generated in the queue for analyst review.
+
+\begin{figure}[htbp]
+  \centering
+  \IfFileExists{test_case_1_1.png}{
+    \includegraphics[width=0.92\textwidth]{test_case_1_1.png}
+  }{
+    \fbox{\parbox[c][4.2cm][c]{0.88\textwidth}{\centering
+      \textbf{Test Case 1.1 Screenshot Placeholder}\\
+      Upload \texttt{test\_case\_1\_1.png} to Overleaf.}}
+  }
+  \caption{Execution Screenshot: Test Case 1.1}
+  \label{fig:test11}
+\end{figure}
+
+\subsection{Test Case 1.2: Large Transfer to a New Receiver After Small Transfers}
+
+Two earlier transfers of 1,000 and 2,000 are first submitted by sender
+\texttt{S05} to receivers \texttt{R05\_OLD1} and \texttt{R05\_OLD2}.
+A new transfer of 60,000 is then submitted by the same sender to
+\texttt{R05\_NEW}. The sender balance changes from 97,000 to 37,000.
+
+\textbf{Observed outcome:} The transaction is classified as medium risk
+because it represents a large transfer to a previously unseen receiver
+and deviates sharply from the sender's earlier transaction amounts. An
+alert is generated accordingly.
+
+\begin{figure}[htbp]
+  \centering
+  \IfFileExists{test_case_1_2_a.png}{
+    \includegraphics[width=0.92\textwidth]{test_case_1_2_a.png}
+  }{
+    \fbox{\parbox[c][4.2cm][c]{0.88\textwidth}{\centering
+      \textbf{Test Case 1.2 (Part 1) Screenshot Placeholder}\\
+      Upload \texttt{test\_case\_1\_2\_a.png} to Overleaf.}}
+  }
+  \caption{Execution Screenshot: Test Case 1.2 (Transaction Submission \& History)}
+  \label{fig:test12a}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \IfFileExists{test_case_1_2_b.png}{
+    \includegraphics[width=0.92\textwidth]{test_case_1_2_b.png}
+  }{
+    \fbox{\parbox[c][4.2cm][c]{0.88\textwidth}{\centering
+      \textbf{Test Case 1.2 (Part 2) Screenshot Placeholder}\\
+      Upload \texttt{test\_case\_1\_2\_b.png} to Overleaf.}}
+  }
+  \caption{Execution Screenshot: Test Case 1.2 (Risk Scoring \& Alert Result)}
+  \label{fig:test12b}
+\end{figure}
+
+\subsection{Test Case 1.3: Burst of Transfers to Multiple Receivers}
+
+Five transfers of 1,000 each are submitted by sender \texttt{S14} to five
+different receivers, \texttt{R14\_A} through \texttt{R14\_E}. A sixth
+transfer of 150,000 is then submitted to the new receiver
+\texttt{R14\_NEW}. The sender balance changes from 295,000 to 145,000
+for the final transaction.
+
+\textbf{Observed outcome:} The final transaction is classified as high
+risk due to the large transfer amount combined with the sender's rapid
+burst of transfers across multiple receivers. An alert is created for
+investigation.
+
+\begin{figure}[htbp]
+  \centering
+  \IfFileExists{test_case_1_3.png}{
+    \includegraphics[width=0.92\textwidth]{test_case_1_3.png}
+  }{
+    \fbox{\parbox[c][4.2cm][c]{0.88\textwidth}{\centering
+      \textbf{Test Case 1.3 Screenshot Placeholder}\\
+      Upload \texttt{test\_case\_1\_3.png} to Overleaf.}}
+  }
+  \caption{Execution Screenshot: Test Case 1.3}
+  \label{fig:test13}
+\end{figure}
+
+\subsection{Test Case 1.4: Small Routine Payment}
+
+A routine payment of 500 is submitted from sender \texttt{s1} to receiver
+\texttt{r1}. The sender balance changes from 10,000 to 9,500 and the
+receiver balance changes from 5,000 to 5,500. No earlier transactions
+are supplied for either account in this test setup.
+
+\textbf{Observed outcome:} The transaction receives a low-risk
+classification. No AML rules are triggered and no alert is generated.
+
+\begin{figure}[htbp]
+  \centering
+  \IfFileExists{test_case_1_4.png}{
+    \includegraphics[width=0.92\textwidth]{test_case_1_4.png}
+  }{
+    \fbox{\parbox[c][4.2cm][c]{0.88\textwidth}{\centering
+      \textbf{Test Case 1.4 Screenshot Placeholder}\\
+      Upload \texttt{test\_case\_1\_4.png} to Overleaf.}}
+  }
+  \caption{Execution Screenshot: Test Case 1.4}
+  \label{fig:test14}
+\end{figure}
+
+\section{Performance Metrics}
+
+The machine-learning models were evaluated using precision, recall,
+F1-score, ROC-AUC, and PR-AUC. These metrics are critical for fraud
+detection because fraudulent transactions represent a small fraction of
+overall volume, where accuracy alone would mask poor minority-class
+detection.
+
+The holdout evaluation results on the PaySim dataset are summarised in
+Table~\ref{tab:modelmetrics}. These results reflect benchmark dataset
+performance rather than live banking traffic.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \begin{tabular}{lccccc}
+    \hline
+    \textbf{Model} & \textbf{Precision} & \textbf{Recall} &
+    \textbf{F1-score} & \textbf{ROC-AUC} & \textbf{PR-AUC} \\
+    \hline
+    Logistic Regression & 0.0337 & 0.9811 & 0.0652 & 0.9962 & 0.6188 \\
+    Random Forest       & 1.0000 & 0.9976 & 0.9988 & 0.9991 & 0.9981 \\
+    XGBoost             & 0.8755 & 0.9970 & 0.9323 & 0.9994 & 0.9941 \\
+    \hline
+  \end{tabular}
+  \caption{Holdout Evaluation Results on the PaySim Dataset}
+  \label{tab:modelmetrics}
+\end{table}
+
+The results demonstrate strong holdout performance for the tree-based
+ensemble models. Feature attribution analysis indicates that the models
+rely heavily on sender balance-related fields, which are strong indicators
+in the PaySim dataset. Additional time-based validation and cross-dataset
+testing remain important before deploying models on live banking streams.
+
+\section{Analysis}
+
+The implemented system successfully integrates transaction screening with
+machine-learning inference, AML rule evaluation, hybrid risk scoring, and
+case management. Across the four functional test scenarios, the platform
+accurately differentiated high-risk account-draining and burst transfers,
+medium-risk behavioral anomalies, and routine low-risk payments.
+
+In model evaluation, Random Forest and XGBoost achieved high precision
+and recall on the holdout split, whereas Logistic Regression exhibited
+high recall but low precision due to excessive false positives. Combining
+tree-based ML predictions with deterministic AML rules provides balanced
+coverage across both known statistical fraud patterns and explicit
+compliance thresholds.
+
+Certain operational limitations remain. The current evaluation relies on
+benchmark datasets and simulated transaction flows rather than live core
+banking feeds. Rule thresholds and hybrid weights are configurable system
+parameters that should be calibrated with institutional domain experts,
+and generated risk scores serve as decision-support signals for human
+investigators rather than automated legal determinations.
+
+% ===== CHAPTER 4: CONCLUSION =====
+
+\chapter{Conclusion}
+
+\section{Summary of Work}
+
+FinShield AI is an end-to-end intelligent platform for financial
+transaction screening and crime investigation support. The system
+integrates a web frontend, FastAPI backend services, PostgreSQL storage,
+machine-learning fraud detection, and rule-based AML analysis. It
+delivers a complete operational workflow spanning conditional hybrid risk
+scoring, SHAP explainability, alert triaging, investigation case
+management, and analytical monitoring.
+
+\section{Key Findings}
+
+\begin{itemize}
+  \item Combining machine-learning predictions with AML rules and
+  transaction-history analysis provides complementary coverage of both
+  statistical anomalies and explicit compliance violations.
+  \item Precision, recall, F1-score, ROC-AUC, and PR-AUC provide a far
+  more reliable evaluation of imbalanced fraud models than accuracy alone.
+  \item Historical sender and receiver context is essential for detecting
+  behavioral deviations, new-payee risks, and multi-recipient transfer bursts.
+  \item Conditional hybrid scoring effectively preserves a strong risk
+  signal when one detection engine scores below the 0.40 threshold, while
+  blending both signals when both detect elevated risk.
+  \item Explainable feature attributions and structured case workflows
+  significantly assist human investigators without replacing expert
+  compliance judgment.
+\end{itemize}
+
+\section{Future Work and Recommendations}
+
+The following enhancements are recommended for future iterations of the platform:
+
+\begin{enumerate}
+  \item Incorporate graph neural networks (GNNs) to uncover deeper
+  multi-hop money laundering rings across account networks.
+  \item Integrate real-time streaming ingestion (such as Apache Kafka)
+  for high-throughput live banking transaction processing.
+  \item Expand model validation using out-of-time splits, drift
+  monitoring, and multi-institution datasets.
+  \item Enhance automated regulatory reporting (such as SAR generation)
+  and expand natural-language investigation summaries.
+  \item Conduct formal penetration testing, encryption hardening, and
+  load testing prior to production deployment.
+\end{enumerate}
+
+\section{Final Remarks}
+
+FinShield AI demonstrates how modern software engineering principles,
+machine learning, and rule-based compliance engines can be unified into an
+effective financial crime detection and investigation platform. By pairing
+hybrid risk scoring with transparent explanations and structured case
+management, the system provides a practical foundation for accelerating
+fraud and AML investigations.
+
+% ===== BIBLIOGRAPHY =====
+\printbibliography
+
+\end{document}
