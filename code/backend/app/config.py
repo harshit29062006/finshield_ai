@@ -1,3 +1,4 @@
+
 """
 Application settings for the FinShield backend.
 

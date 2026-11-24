@@ -14,8 +14,7 @@ from app.config import ML_MODEL_NAME
 from app.database import Base, engine
 from app.risk import AML_WEIGHT, ML_WEIGHT
 from app.routers import (
-    admin, alerts, analytics, auth, cases, transactions,
-    aml_testing, paysim_testing
+    admin, alerts, analytics, auth, cases, transactions, aml_testing
 )
 from app.services import aml_service
 from app.services.ml_service import ml_service
@@ -72,7 +71,7 @@ app.include_router(cases.router)
 app.include_router(analytics.router)
 app.include_router(admin.router)
 app.include_router(aml_testing.router)
-app.include_router(paysim_testing.router)
+
 
 @app.get("/", tags=["System"])
 def root():
