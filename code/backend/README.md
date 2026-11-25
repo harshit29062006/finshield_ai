@@ -275,7 +275,7 @@ python demo.py
 
 ---
 
-## 9. Status and what is left
+## 9. Status
 
 **Done:** authentication, JWT, RBAC, transaction APIs, ML integration, SHAP, AML
 integration, hybrid scoring, alerts, cases and notes, audit logging, analytics, Swagger
@@ -284,6 +284,3 @@ docs, tests.
 **Frontend:** built and working in `../member3_frontend`. It calls this API through a Vite
 proxy, so CORS does not come into it during development; the CORS settings here are kept
 for the case where the frontend is served separately.
-
-**Not in this prototype:** real email/SMS sending (Member 4's module builds the payload
-but does not send), the account relationship graph endpoint, and the real-time simulator.
