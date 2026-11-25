@@ -1,6 +1,6 @@
 PROJECT JOURNAL - FINSHIELD AI
-Student Name: Arnav Gupta
-Roll Number: 1024170057
+Arnav Gupta
+1024170057
 Role: Member 1 - Backend & Security Architecture
 
 WEEK 1: Architecture, tech stack and backend planning
