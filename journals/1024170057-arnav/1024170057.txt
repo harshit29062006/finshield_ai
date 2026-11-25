@@ -4,290 +4,150 @@ Roll Number: 1024170057
 Role: Member 1 - Backend & Security Architecture
 Course: UCS503P (Software Engineering Project)
 
-================================================================================
-WEEK 1: System Architecture, Tech Stack and Backend Planning
-================================================================================
+WEEK 1: Architecture, tech stack and backend planning
 
-What I did:
-- Attended the project kickoff and architecture meeting with my group:
-  * Harshit Goyal (Group Leader and ML Developer)
-  * Jasmandeep (Jasman) Sharma (Member 4, AML and Intelligence Layer)
-  * Dikshit Gupta (Frontend Developer)
-  * Me (Backend and Security Architecture)
-- Compared a few backend frameworks and picked FastAPI because it supports async natively, generates Swagger/ReDoc docs automatically, and has Pydantic validation built in.
-- Chose PostgreSQL as the main database for transactions, audit trails and investigation data.
-- Defined the four user roles and what each can access:
-  * CUSTOMER: submits transactions and can only see their own history.
-  * ANALYST: reviews flagged transactions, manages alerts, opens and investigates cases.
-  * COMPLIANCE: audits platform activity, checks AML rule thresholds, reviews case resolutions.
-  * ADMIN: monitors system health, manages user roles, checks model configurations.
-- Set up the backend folder layout: routers/, services/, models.py, schemas.py, deps.py, config.py, security.py and audit.py.
-- Created the Python virtual environment and started requirements.txt with FastAPI, Uvicorn, SQLAlchemy, Pydantic, Passlib and Python-Jose.
+We had the kickoff meeting with the whole group: Harshit Goyal (group leader, ML), Jasmandeep Sharma (Member 4, AML and intelligence layer), Dikshit Gupta (frontend) and me on backend and security. In the rest of this journal I refer to them as the ML, AML and frontend teammates.
 
-Challenges / decisions:
-- Talked with Harshit (PaySim ML models) and Jasman (AML rule engine, behavior analysis and graph logic) and agreed on an adapter layer, so their analytical code stays separate from the API routes.
+I compared a few backend frameworks and went with FastAPI, mainly because it handles async natively, generates Swagger/ReDoc docs on its own, and has Pydantic validation built in. PostgreSQL is the main database for transactions, audit trails and investigation data.
 
-Summary:
-Finalized the architecture, tech stack, user roles and how the modules are split between us, in line with the team plan.
+We defined four roles:
+- CUSTOMER: submits transactions, sees only their own history
+- ANALYST: reviews flagged transactions, manages alerts, opens and investigates cases
+- COMPLIANCE: audits platform activity, checks AML thresholds, reviews case resolutions
+- ADMIN: monitors system health, manages roles, checks model configs
 
-================================================================================
-WEEK 2: Database Schema and Relational Modeling
-================================================================================
+Set up the folder structure (routers/, services/, models.py, schemas.py, deps.py, config.py, security.py, audit.py), created the venv and started requirements.txt with FastAPI, Uvicorn, SQLAlchemy, Pydantic, Passlib and Python-Jose.
 
-What I did:
-- Discussed the PaySim dataset features and the transaction schema needed for IBM AMLSim and AML detection with my teammates.
-- Designed the PostgreSQL schema and wrote the SQLAlchemy models in app/models.py:
-  * User: credentials, hashed password, role, contact info, active flag.
-  * Transaction: PaySim fields (step, txn_type, balances) for the ML models, plus sender/receiver identifiers (name_orig, name_dest, currency, timestamp) needed for the AML rule engine and graph logic.
-  * RiskResult: ML fraud score, the AML sub-scores (rule, behavior, network), SHAP features and the final hybrid score.
-  * Alert: alert status (OPEN, IN_REVIEW, CLOSED) and priority for suspicious transactions.
-  * Case and CaseNote: investigation records linked to transactions and alerts, with investigator notes.
-  * AuditLog: compliance log of user actions, IP addresses and timestamps.
-- Added foreign keys, cascade delete rules and indexes on columns we query often (txn_ref, username, name_orig, name_dest, created_at).
-- Wrote app/database.py with the engine setup, connection pooling and Base.metadata.create_all() to create tables on startup.
+I talked to the ML teammate (PaySim models) and the AML teammate (AML rules, behavior and graph logic) and we agreed to keep their code behind an adapter layer so it stays separate from the API routes.
 
-Challenges / decisions:
-- I put the PaySim attributes and the AML attributes into one Transaction table instead of separate ones, so real-time screening doesn't need complicated joins.
 
-Summary:
-Schema and ORM models are implemented and checked on local PostgreSQL. This is the base layer for the rest of the project.
+WEEK 2: Database schema
 
-================================================================================
-WEEK 3: Authentication, Password Hashing and RBAC
-================================================================================
+Went through the PaySim features with my teammates and worked out what the schema needs for both the ML models and AML detection. Wrote the SQLAlchemy models in app/models.py:
+- User: credentials, hashed password, role, contact info, active flag
+- Transaction: PaySim fields (step, txn_type, balances) plus name_orig, name_dest, currency and timestamp for the AML side
+- RiskResult: ML fraud score, AML sub-scores (rule, behavior, network), SHAP features, final hybrid score
+- Alert: status (OPEN, IN_REVIEW, CLOSED) and priority
+- Case and CaseNote: investigations linked to transactions and alerts
+- AuditLog: user actions, IPs, timestamps
 
-What I did:
-- Wrote the security utilities in app/security.py:
-  * Password hashing with Passlib and bcrypt, so raw passwords are never stored.
-  * JWT creation and validation using python-jose (HS256) with expiry set by ACCESS_TOKEN_EXPIRE_MINUTES.
-- Wrote the FastAPI dependencies in app/deps.py:
-  * get_current_user: reads and decodes the bearer token from the Authorization header.
-  * require_roles: limits an endpoint to certain roles.
-- Built the auth endpoints in app/routers/auth.py:
-  * POST /api/auth/register for public registration.
-  * POST /api/auth/login (OAuth2 password flow) which returns a JWT.
-  * GET /api/auth/me for the current user's profile.
-- Added audit logging for successful logins and failed login attempts.
+Added foreign keys, cascade deletes, and indexes on txn_ref, username, name_orig, name_dest and created_at. app/database.py has the engine, connection pooling and create_all() on startup.
 
-Challenges / decisions:
-- While testing I noticed that someone could send role="ADMIN" to /register and get admin access. I added a check so every self-registered user is always set to CUSTOMER, which stops this privilege escalation.
+Design choice: I kept PaySim and AML fields in a single Transaction table instead of two, so real-time screening doesn't need extra joins. Tested on local PostgreSQL.
 
-Summary:
-Token-based authentication with role-based access control is built and tested.
 
-================================================================================
-WEEK 4: Transaction APIs, Pydantic Schemas and Privacy Rules
-================================================================================
+WEEK 3: Authentication and RBAC
 
-What I did:
-- Built the transaction router in app/routers/transactions.py:
-  * POST /api/transactions to submit a transaction and start screening.
-  * GET /api/transactions to list transactions with pagination and filters.
-  * GET /api/transactions/{id} for full details along with the risk results.
-- Wrote the Pydantic schemas in app/schemas.py (TransactionCreate, TransactionRead, TransactionFilter) with type checks for balances, amounts and transaction types.
-- Added automatic unique txn_ref generation (UUID prefix) and standard UTC timestamps.
-- Added customer privacy: when a CUSTOMER lists transactions, the query is limited to submitted_by_id == current_user.id. ANALYST, COMPLIANCE and ADMIN can search across everyone.
-- Added pagination (skip, limit) and filtering by transaction type and date range.
+Wrote app/security.py with bcrypt hashing through Passlib and JWT creation/validation (python-jose, HS256, expiry from ACCESS_TOKEN_EXPIRE_MINUTES). In app/deps.py I added get_current_user, which decodes the bearer token, and require_roles, which restricts endpoints by role.
 
-Challenges / decisions:
-- Added strict validation on the balance fields so negative balances and zero-amount transfers get rejected before they reach the database.
+Auth endpoints (app/routers/auth.py): POST /api/auth/register, POST /api/auth/login (OAuth2 password flow, returns the JWT) and GET /api/auth/me. Login successes and failures are written to the audit log.
 
-Summary:
-The transaction submission and retrieval APIs are done, with proper validation, unique references and role-based privacy.
+While testing I found that sending role="ADMIN" to /register actually created an admin. Fixed it by forcing every self-registered user to CUSTOMER.
 
-================================================================================
-WEEK 5: PaySim ML Adapter and Feature Engineering
-================================================================================
 
-What I did:
-- Got the saved PaySim model files (paysim_logistic_regression.pkl, paysim_random_forest.pkl, paysim_xgboost.pkl, paysim_scaler.pkl) from Harshit after he finished training.
-- Wrote a first version of the ML adapter in app/services/ml_service.py so I could use the models without touching the training code.
-- Checked paysim_scaler.feature_names_in_ to get the exact 18 feature names and their order.
-- Wrote build_features() to create the features in real time:
-  * origin_balance_change = oldbalanceOrg - newbalanceOrig
-  * destination_balance_change = newbalanceDest - oldbalanceDest
-  * origin_error = newbalanceOrig + amount - oldbalanceOrg
-  * destination_error = oldbalanceDest + amount - newbalanceDest
-  * amount_to_origin_balance and amount_to_destination_balance
-  * one-hot encoded transaction types (type_CASH_IN to type_TRANSFER)
-- Fixed an input problem with the models:
-  * Random Forest and XGBoost had split thresholds in raw amount units (like amount < 454881.65), so when I scaled the input, normal payments got fraud scores around 0.46.
-  * So now the tree models get raw features and Logistic Regression gets standard-scaled features.
-- Tested with known fraud patterns. For example, a TRANSFER that empties the full account gave about 1.00 fraud probability, which is correct.
+WEEK 4: Transaction APIs and schemas
 
-Challenges / decisions:
-- It took some careful debugging against the scaler means to understand why the tree models needed unscaled input, but it made the predictions accurate.
+Built app/routers/transactions.py: POST /api/transactions (submit and screen), GET /api/transactions (list with pagination and filters) and GET /api/transactions/{id} (details with risk results). Schemas in app/schemas.py are TransactionCreate, TransactionRead and TransactionFilter.
 
-Summary:
-The ML adapter now builds all 18 features on the fly and runs fraud prediction across the different model types.
+Each transaction gets a unique txn_ref (UUID prefix) and a UTC timestamp. For privacy, a CUSTOMER's list query is limited to submitted_by_id == current_user.id, while ANALYST, COMPLIANCE and ADMIN can search everything. Filtering is by transaction type and date range.
 
-================================================================================
-WEEK 6: Case Management and Alert Triage
-================================================================================
+Balance validation rejects negative balances and zero-amount transfers before they reach the database.
 
-What I did:
-- While my teammates worked on the AML dataset (IBM AMLSim) and rule structures, I built the investigation and case management part of the backend.
-- Built the case and alert models and routes in app/routers/cases.py and app/routers/alerts.py:
-  * GET /api/alerts to list alerts, filtered by risk level and status (OPEN, IN_REVIEW, CLOSED).
-  * PATCH /api/alerts/{id}/status so analysts can update the triage status.
-  * POST /api/cases to create a formal case linked to a flagged transaction and alert.
-  * GET /api/cases and GET /api/cases/{id} to search and view cases.
-  * PATCH /api/cases/{id} to update status (OPEN -> IN_PROGRESS -> CLOSED), priority (LOW, MEDIUM, HIGH) and resolution summary.
-- Built POST /api/cases/{id}/notes so several investigators can add timestamped notes with their name to a case without overwriting old ones.
 
-Challenges / decisions:
-- Added database constraints and validation so the same alert can't get duplicate cases.
+WEEK 5: PaySim ML adapter
 
-Summary:
-Case management and alert triage are done, giving analysts a proper workflow for investigating suspicious activity.
+The ML teammate gave me the trained files: paysim_logistic_regression.pkl, paysim_random_forest.pkl, paysim_xgboost.pkl and paysim_scaler.pkl. I wrote the adapter in app/services/ml_service.py so I wouldn't need to touch the training code.
 
-================================================================================
-WEEK 7: Audit Logging and Analytics
-================================================================================
+I read paysim_scaler.feature_names_in_ to get the exact 18 features and their order, then wrote build_features() to compute them at request time: origin and destination balance changes, origin and destination errors, the two amount-to-balance ratios, and one-hot transaction types.
 
-What I did:
-- Built the audit logging service in app/audit.py to keep a tamper-proof audit trail for compliance:
-  * Logs logins (success and failure), transaction submissions, risk evaluations, alert updates, case changes and role changes.
-  * Stores the actor ID, username, action, entity type, entity ID, metadata JSON and client IP.
-- Built the analytics endpoint in app/routers/analytics.py:
-  * GET /api/analytics/summary gives the dashboard its stats: total transactions, volume, alerts by risk level, and open vs closed cases.
-- Checked on how the AML rules and behavior analysis were coming along. Based on that, I added indexes on the Transaction table (name_orig, timestamp) so the backend can quickly fetch a sender's past transactions for the behavior models.
+The first version gave normal payments a fraud score of about 0.46, which made no sense. After comparing against the scaler means, I saw that the Random Forest and XGBoost split thresholds were in raw units (like amount < 454881.65), so scaling the input was breaking them. Fix: tree models get raw features, Logistic Regression gets scaled ones. A TRANSFER that empties the whole account now scores about 1.00.
 
-Challenges / decisions:
-- I used SQLAlchemy aggregation functions (func.count(), group_by) so the dashboard numbers are calculated inside the database instead of loading big result sets into memory.
 
-Summary:
-Audit logging and analytics APIs are done, which improves transparency and reporting.
+WEEK 6: Case management and alert triage
 
-================================================================================
-WEEK 8: Admin APIs and User Management
-================================================================================
+While the others worked on the AML dataset and rules, I built the investigation side (app/routers/alerts.py and cases.py):
+- GET /api/alerts, filterable by risk level and status
+- PATCH /api/alerts/{id}/status for triage
+- POST /api/cases to open a case linked to a transaction and alert
+- GET /api/cases and /api/cases/{id}
+- PATCH /api/cases/{id} for status (OPEN, IN_PROGRESS, CLOSED), priority and resolution summary
+- POST /api/cases/{id}/notes, so several investigators can add timestamped notes without overwriting each other
 
-What I did:
-- Built the admin routes in app/routers/admin.py:
-  * GET /api/admin/users to list users with their roles and active status (admin only).
-  * PATCH /api/admin/users/{id}/role so admins can change a user's role.
-  * GET /api/admin/audit-logs so compliance officers and admins can search audit records by action or date range.
-  * GET /api/admin/aml-rules to show the active AML rule thresholds for compliance review.
-  * GET /api/admin/ml-models to show loaded model details and the active model configuration.
-- Discussed the AML graph logic (sender-receiver network analysis) and the combined AML score output with the AML teammate, and prepared the backend data structures to store the rule, behavior and network scores.
-- Added a safeguard so an admin can't accidentally deactivate or demote their own account.
+Added a constraint so one alert can't end up with duplicate cases.
 
-Challenges / decisions:
-- Added role validation so only valid roles (CUSTOMER, ANALYST, COMPLIANCE, ADMIN) can be assigned.
 
-Summary:
-The admin side is done: user management, role assignment, audit log search and configuration checks.
+WEEK 7: Audit logging and analytics
 
-================================================================================
-WEEK 9: Explainable AI with SHAP
-================================================================================
+Wrote app/audit.py as an append-only audit trail for compliance. It logs logins (success and failure), transaction submissions, risk evaluations, alert updates, case changes and role changes, with actor ID, username, action, entity type and ID, metadata JSON and client IP.
 
-What I did:
-- Synced with Harshit on his Explainable AI work using SHAP for the XGBoost model.
-- Added SHAP's TreeExplainer to app/services/ml_service.py to calculate feature contributions for each incoming transaction in real time.
-- Extracted the base value and the top features (like balance mismatches, amount and transfer type) that drove the prediction.
-- Saved the explanation as JSON (shap_top_features, shap_base_value) in the risk_results table.
-- Built GET /api/transactions/{id}/explanation so the frontend can show the feature contributions to analysts.
-- Added error handling so that if the SHAP calculation fails for any reason, the transaction still gets saved and scored.
+GET /api/analytics/summary feeds the dashboard: total transactions, volume, alerts by risk level, open vs closed cases. I used func.count() and group_by so the database does the aggregation instead of loading large result sets into memory.
 
-Challenges / decisions:
-- Running TreeExplainer on a single row turned out to be fast enough, so it doesn't noticeably slow down the API.
+After checking in on how the AML behavior analysis was going, I added indexes on name_orig and timestamp so sender history can be fetched fast.
 
-Summary:
-SHAP explanations are now part of the backend, so analysts can see which features pushed the ML risk score up.
 
-================================================================================
-WEEK 10: Backend Integration with the AML and Intelligence Pipeline
-================================================================================
+WEEK 8: Admin APIs
 
-What I did:
-- Worked closely with Jasman (Member 4) to plug his finished AML and Intelligence module into the FastAPI backend. His part covers the IBM AMLSim dataset integration, the AML rule engine, behavior analysis, AML scoring, graph logic and the notification payload generators.
-- Used dynamic importing in app/services/aml_service.py by adding code/ml to sys.path, so there is no duplicate code and the original package structure (src.analysis_aml, src.rules_aml, src.notifications_aml) stays the same.
-- Wrote the mapping from database fields to the parameters the module expects (name_orig -> sender_id, name_dest -> receiver_id, txn_type -> payment_type).
-- Added sender history lookup for the AML module:
-  * Wrote queries to fetch the sender's previous transactions from PostgreSQL (up to AML_HISTORY_LIMIT).
-  * Passed that history into analyze_aml() as transaction_history so the behavior analysis (velocity, rapid spikes) and graph logic (fan-out, reciprocal transfers) have past data to compare against.
-- Fixed a major timestamp bug:
-  * The rule engine parser only accepts timestamps in the format %Y/%m/%d %H:%M. When I passed ISO timestamps, the time-window rules were silently skipped. I changed aml_service.py to format timestamps the way the module expects.
-- Saved the full output in the risk_results table:
-  * aml_score, rule_score, behavior_score, network_score
-  * triggered_rules, reasons and investigation_summary
-  * I also set up storage for the notification payload.
-- Tested the full screening flow through the API and confirmed transactions go through the ML models and the AML pipeline together.
+Built app/routers/admin.py:
+- GET /api/admin/users (admin only)
+- PATCH /api/admin/users/{id}/role
+- GET /api/admin/audit-logs, searchable by action and date range
+- GET /api/admin/aml-rules, showing active thresholds
+- GET /api/admin/ml-models, showing loaded models and config
 
-Challenges / decisions:
-- Getting the sender history fetched and formatted before calling analyze_aml() was very important. Without it, the behavior analysis treated every transaction as coming from a brand new customer.
+Role changes are validated against the four allowed roles, and an admin can't deactivate or demote their own account. I also talked through the AML graph logic and combined score with the AML teammate and prepared the DB fields to store the rule, behavior and network scores.
 
-Summary:
-The AML and intelligence layer is now connected to the backend API, so transactions get screened by both ML and AML in real time.
 
-================================================================================
-WEEK 11: Hybrid Risk Scoring and Automated Testing
-================================================================================
+WEEK 9: SHAP explanations
 
-What I did:
-- Worked with Harshit and Jasman on the conditional hybrid risk scoring in app/risk.py:
-  * We hit a score dilution problem: if the ML model says high fraud (0.90) but the AML module has no history pattern yet (0.05), a normal weighted average brings it down to about 0.56.
-  * The fix: if either score is below 0.40, use the max (max(ml_score, aml_score)) so a strong signal from either side isn't watered down.
-  * If both scores are 0.40 or above, use the weighted average: 0.6 * ml_fraud_score + 0.4 * aml_score.
-- Set the risk tiers: HIGH (>= 0.70), MEDIUM (0.40 to 0.69), LOW (< 0.40).
-- Added automatic alert creation: any MEDIUM or HIGH transaction creates an OPEN Alert that includes the triggered rules and the ML probability.
-- Wrote automated tests in code/backend/tests/ using pytest and TestClient:
-  * test_api.py: authentication, RBAC permissions and transaction submission.
-  * test_backend_integration.py: the full flow of transaction ingestion, ML inference, AML rules and alert generation.
-  * test_member3_workflow.py: the whole investigation lifecycle, from suspicious transaction to alert, case creation, adding a note and resolving the case.
-- Set up separate SQLite test database fixtures (fresh_database) so tests run cleanly without touching the PostgreSQL development data.
-- Wrote seed.py to create the demo accounts (admin, analyst, officer, customer).
+Synced with the ML teammate on the SHAP work for XGBoost, then added TreeExplainer to ml_service.py to compute per-transaction feature contributions. The top features and base value are saved as JSON (shap_top_features, shap_base_value) in risk_results, and GET /api/transactions/{id}/explanation serves them to the frontend.
 
-Challenges / decisions:
-- Added fallback handling in the scoring engine so that if either the ML models or the AML module is temporarily down, the system uses the available score instead of crashing.
+If SHAP fails, the transaction is still saved and scored. On a single row it ran fast enough that I didn't notice any slowdown in the API.
 
-Summary:
-The hybrid scoring engine is finished, alerts are connected, and we now have regression tests for the main flows.
 
-================================================================================
-WEEK 12: Frontend Integration, Health Check and Final Deliverables
-================================================================================
+WEEK 10: Integrating the AML pipeline
 
-What I did:
-- Worked with Dikshit to finish the frontend-backend connection:
-  * Set up CORSMiddleware in FastAPI to allow cross-origin requests.
-  * Checked the Vite proxy in vite.config.js so the React UI can call http://127.0.0.1:8000 smoothly.
-- Built the /health endpoint in app/main.py, which shows:
-  * live PostgreSQL connection status,
-  * whether the ML model pickle files are loaded,
-  * whether the AML and intelligence module imported successfully,
-  * the current scoring weights and risk thresholds.
-- Wrote demo.py, a script that logs in, submits normal transactions, triggers a suspicious one, checks the SHAP explanation, opens an investigation case and prints the audit trail.
-- Checked the interactive API docs at /docs (Swagger UI) and /redoc.
-- Wrote the backend and database architecture sections of the final project report.
-- Reviewed the codebase, removed unused dependencies and finished the backend README.
+Plugged the AML teammate's module into the backend. That part covers the AMLSim data, rule engine, behavior analysis, scoring, graph logic and notification payloads. In app/services/aml_service.py I add code/ml to sys.path and import it dynamically, so there's no copied code and the original package structure (src.analysis_aml, src.rules_aml, src.notifications_aml) stays untouched.
 
-Challenges / decisions:
-- Fixed small field mismatches between the frontend forms and the backend Pydantic models so transaction submission works without errors.
+I mapped our DB fields to the module's parameters (name_orig -> sender_id, name_dest -> receiver_id, txn_type -> payment_type) and wrote queries that fetch the sender's previous transactions (up to AML_HISTORY_LIMIT) and pass them as transaction_history. Without this, the behavior analysis treated every sender as new.
 
-Summary:
-Full integration is done, with health monitoring, API documentation and everything ready for final evaluation.
+Bug worth noting: the rule engine's parser only accepts %Y/%m/%d %H:%M. I was passing ISO timestamps and the time-window rules were being skipped with no error at all. I now format timestamps the way the module expects.
 
-================================================================================
-SEMESTER SUMMARY & MY CONTRIBUTIONS
-================================================================================
+Results (aml_score, rule/behavior/network scores, triggered_rules, reasons, investigation_summary) are stored in risk_results, with a field for the notification payload. Tested the full flow through the API and transactions now go through both ML and AML.
 
-During the twelve weeks of FinShield AI, I worked as Member 1 (Backend & Security Architecture).
 
-What I contributed:
-1. System and API architecture: Built the modular FastAPI app with routers, services, dependency injection and Pydantic validation schemas.
-2. Database modeling: Designed and maintained the PostgreSQL schema with SQLAlchemy, covering the User, Transaction, RiskResult, Alert, Case, CaseNote and AuditLog tables.
-3. Security: Implemented bcrypt password hashing, JWT token handling (HS256) and role-based access control for Customer, Analyst, Compliance and Admin.
-4. Analytical adapters:
-   - Built the ML adapter that creates 18 features dynamically for the ML models and sends raw features to the tree models (RF/XGBoost) and scaled features to Logistic Regression.
-   - Added SHAP TreeExplainer for real-time Explainable AI fraud explanations.
-   - Connected the AML and Intelligence layer (rule engine, behavior analysis, graph logic and notification payloads) using dynamic importing, sender history lookup and correct timestamp formatting.
-5. Hybrid risk scoring: Implemented the conditional scoring logic (0.40 threshold) combining the ML score and the AML score to avoid signal dilution, along with automatic alerts for non-LOW transactions.
-6. Investigation workflow: Built alert triage, case management, collaborative case notes and transaction re-analysis endpoints.
-7. Governance and analytics: Built the audit trail logging, admin controls and dashboard analytics.
-8. Testing and tools: Wrote pytest test suites with isolated SQLite fixtures, the seed.py script, the demo.py walkthrough and the /health diagnostics.
+WEEK 11: Hybrid scoring and tests
 
-Final reflection:
-This project gave me hands-on experience building a secure backend for a financial system. Working closely with Harshit Goyal on the ML fraud models, Jasman Sharma on the AML and intelligence layer, and Dikshit Gupta on the frontend, to build one financial crime detection platform, helped me understand what end-to-end software engineering actually involves. The debugging parts, like the raw vs scaled input issue and the silent timestamp bug, taught me the most.
+With the ML and AML teammates I worked out the hybrid scoring in app/risk.py. The problem: if ML says 0.90 and AML says 0.05 (no history yet), a plain weighted average gives about 0.56 and dilutes the ML signal. Our rule: if either score is below 0.40, take max(ml, aml). If both are 0.40 or above, use 0.6 * ml + 0.4 * aml. Tiers are HIGH (>= 0.70), MEDIUM (0.40-0.69), LOW (< 0.40). MEDIUM and HIGH transactions automatically create an OPEN alert with the triggered rules and ML probability. If the ML models or AML module is down, scoring falls back to whichever score is available.
+
+Tests (pytest + TestClient, in code/backend/tests/):
+- test_api.py: auth, RBAC, transaction submission
+- test_backend_integration.py: ingestion, ML, AML rules, alert generation
+- test_member3_workflow.py: suspicious transaction -> alert -> case -> note -> resolution
+
+They run on a separate SQLite fixture (fresh_database), so the PostgreSQL dev data is untouched. Also wrote seed.py for the demo accounts (admin, analyst, officer, customer).
+
+
+WEEK 12: Frontend integration and final deliverables
+
+Worked with the frontend teammate on connecting the frontend: CORSMiddleware in FastAPI, and the Vite proxy in vite.config.js so the React app can reach http://127.0.0.1:8000. Fixed a few field name mismatches between the frontend forms and the Pydantic models that were breaking transaction submission.
+
+Added a /health endpoint in main.py showing PostgreSQL status, whether the model pickles loaded, whether the AML module imported, and the current scoring weights and thresholds. Wrote demo.py, which logs in, submits normal and suspicious transactions, checks the SHAP explanation, opens a case and prints the audit trail.
+
+Also checked /docs and /redoc, wrote the backend and database sections of the final report, removed unused dependencies and finished the backend README.
+
+
+SEMESTER SUMMARY
+
+I was Member 1 (Backend & Security Architecture). My main contributions:
+1. Modular FastAPI backend with routers, services, dependency injection and Pydantic schemas
+2. PostgreSQL schema and SQLAlchemy models (User, Transaction, RiskResult, Alert, Case, CaseNote, AuditLog)
+3. bcrypt hashing, JWT (HS256) and role-based access control for four roles
+4. ML adapter (18 features built at request time, raw input for tree models, scaled for Logistic Regression) plus SHAP explanations
+5. Integration of the AML layer using dynamic import, sender history lookup and the timestamp fix
+6. Hybrid risk scoring with the 0.40 rule and automatic alerts
+7. Alert triage, case management and case notes
+8. Audit logging, admin controls and dashboard analytics
+9. pytest suites, seed.py, demo.py and /health
+
+Reflection:
+The part I learned the most from was debugging. The raw vs scaled input issue and the silent timestamp bug both gave wrong results with no errors at all, so I only caught them by testing known fraud cases and reading the models' own thresholds. It also showed me why we kept the adapter layer: I could fix both problems on the backend side without touching the ML training code or the AML module.
